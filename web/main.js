@@ -513,6 +513,13 @@ function pintarMundo() {
         const k = w / 64;
         nodos.push(arco(n, 9.5 * k, 1 - n.shipStep / n.spec.botEnergy, '#8ED07A', 2 * k));
       }
+      // Recargando tras una salva (buildingRocket.as:174-311): fireStep baja
+      // desde reload y hasta entonces no elige objetivo. El ciclo en vacío
+      // (reloadIdle) no es recarga y no se pinta.
+      if (n.kind === 'rocket' && n.fireStep > n.spec.reloadIdle) {
+        const k = w / 64;
+        nodos.push(arco(n, 24 * k, 1 - n.fireStep / n.spec.reload, '#EE8F6E', 1.6 * k));   // fuera del sprite: la caja llena el viewBox
+      }
     } else {
       // "en obra": silueta a trazos + arco cian con la energía ya bombeada
       const r = w / 2;
