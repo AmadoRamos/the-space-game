@@ -260,6 +260,17 @@ gesto del usuario (política del navegador).
 - [x] **`optEL`**: localizado en `requestEnergy()` (`frame_2/DoAction.as:1316`):
       apaga las líneas de energía. Las líneas están (`net.flows`, capa de
       cables, con su temblor) y la opción también.
+- [ ] **Edificio aislado por cable bloqueado.** Observado el 2026-09-21 al
+      grabar la captura del README: un relay colocado detrás de un asteroide
+      queda sin enlace, se cobra y nunca se construye. Es fiel al original:
+      `tempLink` (`frame_2/DoAction.as:1465-1470`) pinta ese cable en
+      `colBlocked` pero deja colocar, y `linksFor` lo reproduce (`sim.js:954`,
+      `hit === 1`). Decidir si se trata como error del original que se corrige
+      o como parte del juego. Lo que hoy hace el port: aviso de texto «fuera de
+      la red: se construiría, pero sin energía» junto al cursor, sin pintar el
+      cable bloqueado en rojo como hace el original. Pendiente: verificar en
+      Flashpoint qué ve el jugador exactamente y, como mínimo, pintar el cable
+      en `colBlocked` para igualar el aviso.
 - [x] Rendimiento, medido (2026-09-18):
   - Modelo (Node, base de 80 nodos con 24 torretas, en combate): 100 cazas
     0,04 ms/tick, 600 cazas 0,05, 300 misileras 0,06 (peor tick 0,7 ms), 300

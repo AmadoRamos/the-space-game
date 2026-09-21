@@ -47,8 +47,9 @@ await espera(2500);
 
 // [tecla, x, y] en píxeles de pantalla (la planta inicial está en el centro, 720,450);
 // ["esperar", ms] deja correr la partida; ["mover", x, y] solo desplaza el ratón.
-// Los relays se esperan uno a uno: un edificio colocado mientras su vecino aún
-// está en obra queda aislado y nunca se construye (fidelidad al original).
+// Los cables no pueden cruzar asteroides: un relay colocado detrás de uno queda
+// sin enlace, se cobra y nunca se construye (TODO.md, bloque 5). Las esperas
+// entre relays dejan que cada tramo se construya y entregue energía al siguiente.
 const jugadas = [
   ["", 1248, 48],                                       // 4×
   ["1", 680, 492], ["2", 650, 515], ["1", 770, 420], ["2", 812, 405], ["1", 640, 470], ["2", 600, 445],
