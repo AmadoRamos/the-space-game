@@ -946,6 +946,9 @@ export class Network {
 
     const lines = [];
     for (const other of this.nodes) {
+      // El tope de cables (relay: 6) se mira solo en el nodo ya puesto, nunca en
+      // el nuevo (DoAction.as:1444): un relay colocado con siete vecinos en
+      // alcance se engancha a los siete; lo que no hará es aceptar un octavo.
       if (other.maxLinks !== null && other.links.length >= other.maxLinks) continue;
       if (!other.relayEnergy && other.links.length) continue;
       if (!(other.relayEnergy || node.relayEnergy)) continue;
