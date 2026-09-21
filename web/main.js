@@ -413,7 +413,12 @@ $('sMejorar').onclick = mejorar;
 $('sVender').onclick = vender;
 
 // --- dibujo -----------------------------------------------------------------
+// giro de las torretas láser (°/s): no está en el bytecode, es elección del port
+const GIRO_TORRETA = 360;
+const rumbos = new WeakMap();
+let ultimoGiro = 0;
 function pintarMundo() {
+  const ahora = performance.now();
   // cables
   const cables = [];
   const vistos = new Set();
@@ -452,11 +457,29 @@ function pintarMundo() {
 
   // nodos
   const nodos = [];
+  const dtGiro = (ahora - ultimoGiro) * velocidad;   // en tiempo de juego: en pausa no gira
+  ultimoGiro = ahora;
   for (const n of net.nodes) {
     const w = TAM[n.kind];
     if (n.built) {
-      nodos.push(el('use', { href: SPRITE[n.kind](n), x: n.x - w / 2, y: n.y - w / 2, width: w, height: w,
-                             color: colorAcento(n) }));
+      const attrs = { href: SPRITE[n.kind](n), x: n.x - w / 2, y: n.y - w / 2, width: w, height: w,
+                      color: colorAcento(n) };
+      if (n.kind === 'laser') {
+        // Licencia del port: el original es un fotograma fijo (buildingLaser.as:362,
+        // sin _rotation). Aquí la torreta gira entera hacia n.attack (el símbolo
+        // apunta arriba, como naves y bots) y se queda mirando donde disparó.
+        // Solo visual: el rayo sale del centro del nodo pase lo que pase.
+        let rumbo = rumbos.get(n) ?? 0;
+        if (n.attack) {
+          const objetivo = Math.atan2(n.attack.y - n.y, n.attack.x - n.x) * 180 / Math.PI + 90;
+          const d = (((objetivo - rumbo) % 360) + 540) % 360 - 180;
+          const tope = GIRO_TORRETA * dtGiro / 1000;
+          rumbo += Math.max(-tope, Math.min(tope, d));
+          rumbos.set(n, rumbo);
+        }
+        attrs.transform = `rotate(${rumbo} ${n.x} ${n.y})`;
+      }
+      nodos.push(el('use', attrs));
       if (n.kind === 'store' && n.energy > 0) {
         // El arco del núcleo se completa con la energía guardada. El original lo
         // intentaba con mcEnergy1/mcEnergy2 (buildingStore.as:221-229), clips que
