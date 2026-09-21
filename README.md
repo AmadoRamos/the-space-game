@@ -5,6 +5,8 @@ gestión de red energética y defensa de torres. El original es Flash/AS2
 (`thespacegame.v83.swf`); esta es una reimplementación en JavaScript puro
 hecha a partir del bytecode decompilado.
 
+<a href="design/capturas/juego.png"><img src="design/capturas/juego.png" alt="Speed Miner: red de relays, mineros, dos plantas y un almacén"></a>
+
 ## Jugar
 
 ```bash
@@ -69,7 +71,8 @@ Los sprites y pantallas están dibujados como SVG en canvas de diseño
 <table><tr><td align="center"><a href="design/Main.dc.html"><img src="design/capturas/Main.png" width="400"></a><br><sub>Main</sub></td><td align="center"><a href="design/Menu.dc.html"><img src="design/capturas/Menu.png" width="400"></a><br><sub>Menu</sub></td></tr>
 <tr><td align="center"><a href="design/FinVictoria.dc.html"><img src="design/capturas/FinVictoria.png" width="400"></a><br><sub>FinVictoria</sub></td><td align="center"><a href="design/FinDerrota.dc.html"><img src="design/capturas/FinDerrota.png" width="400"></a><br><sub>FinDerrota</sub></td></tr></table>
 
-Las capturas se regeneran con `npm run capturas` (Chrome headless).
+Las capturas se regeneran con `npm run capturas` (Chrome headless); la del juego
+de arriba, con `npm run captura-juego` sobre `npm start` en marcha.
 
 ## Estado
 
