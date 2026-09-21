@@ -467,16 +467,14 @@ function pintarMundo() {
       if (n.kind === 'laser') {
         // Licencia del port: el original es un fotograma fijo (buildingLaser.as:362,
         // sin _rotation). Aquí la torreta gira entera hacia n.attack (el símbolo
-        // apunta arriba, como naves y bots) y se queda mirando donde disparó.
+        // apunta arriba, como naves y bots) y sin objetivo vuelve al reposo.
         // Solo visual: el rayo sale del centro del nodo pase lo que pase.
         let rumbo = rumbos.get(n) ?? 0;
-        if (n.attack) {
-          const objetivo = Math.atan2(n.attack.y - n.y, n.attack.x - n.x) * 180 / Math.PI + 90;
-          const d = (((objetivo - rumbo) % 360) + 540) % 360 - 180;
-          const tope = GIRO_TORRETA * dtGiro / 1000;
-          rumbo += Math.max(-tope, Math.min(tope, d));
-          rumbos.set(n, rumbo);
-        }
+        const objetivo = n.attack ? Math.atan2(n.attack.y - n.y, n.attack.x - n.x) * 180 / Math.PI + 90 : 0;
+        const d = (((objetivo - rumbo) % 360) + 540) % 360 - 180;
+        const tope = GIRO_TORRETA * dtGiro / 1000;
+        rumbo += Math.max(-tope, Math.min(tope, d));
+        rumbos.set(n, rumbo);
         attrs.transform = `rotate(${rumbo} ${n.x} ${n.y})`;
       }
       nodos.push(el('use', attrs));
