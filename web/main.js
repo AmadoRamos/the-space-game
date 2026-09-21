@@ -637,9 +637,13 @@ function pintarFantasma() {
                               'stroke-width': 2 / cam.zoom, opacity: 0.85, fill: 'none' }));
     }
   }
-  // los cables que nacerían, ya dibujados
-  for (const other of lineas ?? []) {
-    hijos.push(el('path', { d: `M${gx} ${gy} L${other.x} ${other.y}`, stroke: col,
+  // los cables que nacerían, ya dibujados; los bloqueados por un asteroide o
+  // un edificio, en colBlocked como el original (frame_2/DoAction.as:1465-1470,
+  // 0xea1d4e; 0xff5f85 con optCB): avisan, pero no impiden colocar
+  const cables = [...(lineas ?? []).map((o) => [o, col]),
+                  ...(razon.bloqueados ?? []).map((o) => [o, opciones.optCB ? '#ff5f85' : '#ea1d4e'])];
+  for (const [other, c] of cables) {
+    hijos.push(el('path', { d: `M${gx} ${gy} L${other.x} ${other.y}`, stroke: c,
                             'stroke-width': 1.6 / cam.zoom, 'stroke-dasharray': `${4 / cam.zoom} ${4 / cam.zoom}`,
                             opacity: 0.8, fill: 'none' }));
   }

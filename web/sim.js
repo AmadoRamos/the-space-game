@@ -951,7 +951,9 @@ export class Network {
       if (!node.relayEnergy && lines.length) break;
       const hit = this.intersects(node, other);
       if (hit === 2) { reason.why = 'onCable'; reason.what = other; return null; }
-      if (hit === 1) continue;   // cable bloqueado: no se tiende, pero se construye
+      // cable bloqueado: no se tiende, pero se construye. Se apunta en `reason`
+      // para que la plantilla lo pinte en colBlocked (DoAction.as:1465-1470)
+      if (hit === 1) { (reason.bloqueados ??= []).push(other); continue; }
       lines.push(other);
     }
     return lines;

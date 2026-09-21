@@ -7,7 +7,7 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 
 const chrome = process.env.CHROME ?? "C:/Program Files/Google/Chrome/Application/chrome.exe";
-const salida = path.join(path.dirname(fileURLToPath(import.meta.url)), "capturas", "juego.png");
+const salida = process.env.SALIDA ?? path.join(path.dirname(fileURLToPath(import.meta.url)), "capturas", "juego.png");
 const url = "http://localhost:8123/?nivel=12&jugar";
 
 const proc = spawn(chrome, ["--headless=new", "--disable-gpu", "--hide-scrollbars", "--disable-lcd-text",
@@ -50,7 +50,8 @@ await espera(2500);
 // Los cables no pueden cruzar asteroides: un relay colocado detrás de uno queda
 // sin enlace, se cobra y nunca se construye (TODO.md, bloque 5). Las esperas
 // entre relays dejan que cada tramo se construya y entregue energía al siguiente.
-const jugadas = [
+// JUGADAS y SALIDA en el entorno permiten grabar otra escena sin tocar el guion.
+const jugadas = process.env.JUGADAS ? JSON.parse(process.env.JUGADAS) : [
   ["", 1248, 48],                                       // 4×
   ["1", 680, 492], ["2", 650, 515], ["1", 770, 420], ["2", 812, 405], ["1", 640, 470], ["2", 600, 445],
   ["esperar", 40000],
