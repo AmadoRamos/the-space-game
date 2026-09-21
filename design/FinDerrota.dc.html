@@ -1,0 +1,257 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; background: #070a10; }
+    * { box-sizing: border-box; }
+    .num { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+           font-variant-numeric: tabular-nums; }
+    .stat { flex: 1; }
+    .stat .v { font-size: 26px; font-weight: 600; letter-spacing: -0.03em; line-height: 1; }
+    .stat .l { font-size: 11.5px; color: #7f8fa8; margin-top: 7px; }
+    .btn { display: flex; align-items: center; justify-content: center; height: 52px;
+           border-radius: 12px; font-family: inherit; font-size: 14.5px; font-weight: 500;
+           cursor: pointer; border: 1px solid rgba(150,180,215,.16);
+           background: rgba(150,180,215,.05); color: #cfd9e8; padding: 0 24px; }
+  </style>
+</helmet>
+
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden;
+            background: radial-gradient(1100px 780px at 50% 44%, #2a1418 0%, #130d13 46%, #070a10 100%);
+            font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            color: #e6ecf5; letter-spacing: -0.01em;">
+
+  <!-- ══ el campo, con la base ya deshecha ═══════════════════════════ -->
+  <svg viewBox="0 0 1440 900" width="1440" height="900"
+       style="position: absolute; inset: 0;" aria-hidden="true">
+    <defs>
+      <radialGradient id="droca" cx="34%" cy="28%">
+        <stop offset="0%" stop-color="#3a3327"/>
+        <stop offset="58%" stop-color="#241f18"/>
+        <stop offset="100%" stop-color="#14110d"/>
+      </radialGradient>
+    </defs>
+    <g fill="#ffffff">
+      <circle cx="118" cy="96" r="1.1" opacity=".45"/><circle cx="317" cy="62" r="1.3" opacity=".55"/>
+      <circle cx="512" cy="118" r="1" opacity=".4"/><circle cx="681" cy="74" r="1.2" opacity=".5"/>
+      <circle cx="836" cy="139" r="1.1" opacity=".45"/><circle cx="1004" cy="252" r="1.3" opacity=".55"/>
+      <circle cx="1188" cy="318" r="1" opacity=".4"/><circle cx="1276" cy="88" r="1.2" opacity=".5"/>
+      <circle cx="358" cy="524" r="1.1" opacity=".4"/><circle cx="944" cy="546" r="1" opacity=".4"/>
+      <circle cx="152" cy="704" r="1" opacity=".36"/><circle cx="1172" cy="796" r="1" opacity=".34"/>
+    </g>
+    <g opacity=".8">
+      <path d="M32 4 L46 9 L56 22 L57 36 L47 50 L33 58 L19 55 L8 45 L4 30 L9 15 L19 7 Z"
+            fill="url(#droca)" stroke="#453d2c" stroke-width="1.2"
+            transform="translate(250 250) rotate(20) scale(1.9) translate(-32 -32)"/>
+      <path d="M32 6 L50 14 L58 31 L48 46 L30 57 L14 50 L5 34 L10 16 Z"
+            fill="url(#droca)" stroke="#453d2c" stroke-width="1.2"
+            transform="translate(1300 190) rotate(250) scale(1.1) translate(-32 -32)"/>
+    </g>
+
+    <!-- huecos de lo que hubo: solo los círculos de trazos -->
+    <g fill="none" stroke="rgba(150,180,215,.14)" stroke-width="1" stroke-dasharray="3 5">
+      <circle cx="420" cy="480" r="24"/><circle cx="300" cy="410" r="16"/>
+      <circle cx="548" cy="522" r="16"/><circle cx="1040" cy="400" r="22"/>
+      <circle cx="1160" cy="452" r="16"/><circle cx="660" cy="620" r="18"/>
+    </g>
+    <g fill="#3a3028" opacity=".7">
+      <path d="M404 466 l9 -5 5 9 -8 5 z"/><path d="M440 496 l7 3 -2 8 -7 -2 z"/>
+      <path d="M1028 388 l8 -4 4 8 -7 4 z"/><path d="M1054 418 l6 3 -1 7 -6 -2 z"/>
+      <path d="M292 402 l6 -3 3 6 -5 3 z"/><path d="M652 612 l7 -3 3 6 -6 4 z"/>
+    </g>
+
+    <!-- los piratas, todavía ahí -->
+    <g opacity=".8">
+      <g transform="translate(760 300) rotate(200)">
+        <path d="M38 26 L55 42 L51 47 L36 39 Z" fill="#141014" stroke="#4a3038" stroke-width="1.3"
+              transform="translate(-32 -32)"/>
+        <path d="M26 26 L9 42 L13 47 L28 39 Z" fill="#141014" stroke="#4a3038" stroke-width="1.3"
+              transform="translate(-32 -32)"/>
+        <path d="M32 5 L38 26 L36 49 L28 49 L26 26 Z" fill="#141014" stroke="#4a3038"
+              stroke-width="1.5" transform="translate(-32 -32)"/>
+        <circle cx="0" cy="-3" r="3.4" fill="#E06A6A"/>
+      </g>
+      <g transform="translate(880 660) rotate(320) scale(0.6)">
+        <path d="M32 9 L48 51 L32 42 L16 51 Z" fill="#141014" stroke="#4a3038" stroke-width="1.8"
+              transform="translate(-32 -32)"/>
+        <circle cx="0" cy="-2" r="3.6" fill="#E06A6A"/>
+      </g>
+      <g transform="translate(1120 700) rotate(150) scale(0.6)">
+        <path d="M32 9 L48 51 L32 42 L16 51 Z" fill="#141014" stroke="#4a3038" stroke-width="1.8"
+              transform="translate(-32 -32)"/>
+        <circle cx="0" cy="-2" r="3.6" fill="#E06A6A"/>
+      </g>
+    </g>
+  </svg>
+
+  <div style="position: absolute; inset: 0; background: rgba(8,5,7,.78);
+              backdrop-filter: blur(3px);"></div>
+
+  <!-- ══ PANEL ═══════════════════════════════════════════════════════ -->
+  <div style="position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+              width: 760px; padding: 40px 44px 36px; border-radius: 20px;
+              border: 1px solid rgba(224,106,106,.24); background: rgba(16,11,14,.95);
+              box-shadow: 0 40px 100px rgba(0,0,0,.66);">
+
+    <div style="display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;">
+      <div>
+        <div class="num" style="font-size: 11px; letter-spacing: .14em; color: #E06A6A;">
+          MODO NORMAL
+        </div>
+        <div style="font-size: 36px; font-weight: 600; letter-spacing: -0.035em; margin-top: 10px;">
+          Derrota
+        </div>
+        <div style="font-size: 14.5px; color: #a1909a; margin-top: 10px; max-width: 420px;
+                    text-wrap: pretty;">
+          Los piratas ganaron esta ronda. Siempre puedes volver a intentarlo.
+        </div>
+      </div>
+      <div style="text-align: right; flex-shrink: 0;">
+        <div class="num" style="font-size: 46px; font-weight: 600; letter-spacing: -0.04em;
+                                line-height: 1; color: #E9A25A;">58<span style="font-size: 24px;">%</span></div>
+        <div style="font-size: 11.5px; color: #7f8fa8; margin-top: 8px;">del objetivo</div>
+      </div>
+    </div>
+
+    <!-- barra de progreso hacia el objetivo -->
+    <div style="margin-top: 22px; height: 5px; border-radius: 3px;
+                background: rgba(150,180,215,.12); overflow: hidden;">
+      <div style="width: 58%; height: 100%; border-radius: 3px; background: #E9A25A;"></div>
+    </div>
+    <div style="display: flex; justify-content: space-between; margin-top: 7px;">
+      <span class="num" style="font-size: 11px; color: #7f8fa8;">17 640 minados</span>
+      <span class="num" style="font-size: 11px; color: #5f6d82;">30 000</span>
+    </div>
+
+    <!-- cifras -->
+    <div style="display: flex; gap: 20px; margin-top: 26px; padding: 22px 0;
+                border-top: 1px solid rgba(150,180,215,.11);
+                border-bottom: 1px solid rgba(150,180,215,.11);">
+      <div class="stat">
+        <div class="v num">96</div>
+        <div class="l">naves destruidas</div>
+      </div>
+      <div class="stat">
+        <div class="v num">11:04</div>
+        <div class="l">tiempo de partida</div>
+      </div>
+      <div class="stat">
+        <div class="v num" style="color: #E06A6A;">7:10</div>
+        <div class="l">llegaron las nodrizas</div>
+      </div>
+      <div class="stat" style="flex: 0 0 auto; text-align: right;">
+        <div class="v num" style="color: #5f6d82;">31 480</div>
+        <div class="l">tu mejor marca</div>
+      </div>
+    </div>
+
+    <!-- ══ dos gráficas, un eje de tiempo compartido ═════════════════ -->
+    <div style="margin-top: 26px;">
+
+      <div style="display: flex; align-items: baseline; justify-content: space-between;">
+        <div style="font-size: 12.5px; font-weight: 500; color: #c8d2e0;">Energía en red</div>
+        <div class="num" style="font-size: 11px; color: #7f8fa8;">pico 9</div>
+      </div>
+      <svg viewBox="0 0 672 96" width="672" height="96" style="display: block; margin-top: 8px;"
+           aria-hidden="true">
+        <g stroke="rgba(150,180,215,.09)" stroke-width="1">
+          <path d="M0 8 H620"/><path d="M0 48 H620"/><path d="M0 88 H620"/>
+        </g>
+        <!-- momento en que empiezan a caer las plantas -->
+        <path d="M400 4 V88" stroke="rgba(224,106,106,.45)" stroke-width="1" stroke-dasharray="3 4"/>
+        <path d="M0 88 L44 72 L88 62 L132 48 L176 54 L220 36 L264 30 L308 26 L352 32
+                 L400 30 L444 52 L488 66 L532 74 L576 84 L620 88 L620 88 L0 88 Z"
+              fill="#5AB8D9" opacity=".12"/>
+        <path d="M0 88 L44 72 L88 62 L132 48 L176 54 L220 36 L264 30 L308 26 L352 32
+                 L400 30 L444 52 L488 66 L532 74 L576 84 L620 88"
+              fill="none" stroke="#5AB8D9" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="620" cy="88" r="4" fill="#5AB8D9" stroke="#100b0e" stroke-width="2"/>
+        <text x="410" y="16" fill="#E06A6A" font-size="10"
+              font-family="IBM Plex Mono, monospace">nodrizas</text>
+        <text x="632" y="92" fill="#c8d2e0" font-size="11"
+              font-family="IBM Plex Mono, monospace">0</text>
+      </svg>
+
+      <div style="display: flex; align-items: baseline; justify-content: space-between;
+                  margin-top: 20px;">
+        <div style="font-size: 12.5px; font-weight: 500; color: #c8d2e0;">Minerales por minuto</div>
+        <div class="num" style="font-size: 11px; color: #7f8fa8;">pico 1 720</div>
+      </div>
+      <svg viewBox="0 0 672 96" width="672" height="96" style="display: block; margin-top: 8px;"
+           aria-hidden="true">
+        <g stroke="rgba(150,180,215,.09)" stroke-width="1">
+          <path d="M0 8 H620"/><path d="M0 48 H620"/><path d="M0 88 H620"/>
+        </g>
+        <path d="M400 4 V88" stroke="rgba(224,106,106,.45)" stroke-width="1" stroke-dasharray="3 4"/>
+        <path d="M0 88 L44 80 L88 70 L132 56 L176 60 L220 42 L264 32 L308 24 L352 20
+                 L400 22 L444 44 L488 60 L532 72 L576 82 L620 88 L620 88 L0 88 Z"
+              fill="#E9A25A" opacity=".12"/>
+        <path d="M0 88 L44 80 L88 70 L132 56 L176 60 L220 42 L264 32 L308 24 L352 20
+                 L400 22 L444 44 L488 60 L532 72 L576 82 L620 88"
+              fill="none" stroke="#E9A25A" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="620" cy="88" r="4" fill="#E9A25A" stroke="#100b0e" stroke-width="2"/>
+        <text x="632" y="92" fill="#c8d2e0" font-size="11"
+              font-family="IBM Plex Mono, monospace">0</text>
+      </svg>
+
+      <svg viewBox="0 0 672 22" width="672" height="22" style="display: block; margin-top: 4px;"
+           aria-hidden="true">
+        <g fill="#5f6d82" font-size="10" font-family="IBM Plex Mono, monospace">
+          <text x="0" y="14">0:00</text><text x="216" y="14">4:00</text>
+          <text x="384" y="14">7:10</text><text x="580" y="14">11:04</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- consejo, con el texto del propio juego -->
+    <div style="margin-top: 22px; display: flex; gap: 14px; padding: 15px 17px;
+                border-radius: 12px; border: 1px solid rgba(224,106,106,.18);
+                background: rgba(224,106,106,.06);">
+      <svg viewBox="0 0 64 64" width="30" height="30" style="flex-shrink: 0;" aria-hidden="true">
+        <path d="M32 2 L58 17 L58 47 L32 62 L6 47 L6 17 Z"
+              fill="#141014" stroke="#4a3038" stroke-width="1.6"/>
+        <path d="M32 8 L53 20 L53 44 L32 56 L11 44 L11 20 Z"
+              fill="none" stroke="#2a1c22" stroke-width="0.9"/>
+        <circle cx="32" cy="32" r="11" fill="#0d0a0c" stroke="#4a3038" stroke-width="1.5"/>
+        <circle cx="32" cy="32" r="6" fill="#E06A6A"/>
+      </svg>
+      <div style="font-size: 12.5px; color: #b9a0a2; line-height: 1.55; text-wrap: pretty;">
+        Las nodrizas te desmontaron la base desde fuera de alcance. Los misiles y el THEL son lo
+        único que llega hasta ellas; el láser de pulso te sirve para los cazas que sueltan.
+      </div>
+    </div>
+
+    <!-- acciones -->
+    <div style="display: flex; gap: 12px; margin-top: 26px;">
+      <button class="btn" style="flex: 1; background: #E06A6A; color: #170a0c; border: 0;
+                                 font-weight: 600; font-size: 15px;
+                                 box-shadow: 0 12px 30px rgba(224,106,106,.18);">
+        Reintentar
+      </button>
+      <button class="btn" style="flex-direction: column; gap: 2px; align-items: flex-start;">
+        <span style="font-size: 13.5px;">Mismo campo</span>
+        <span class="num" style="font-size: 10.5px; color: #7f8fa8;">semilla 418</span>
+      </button>
+      <button class="btn" style="padding: 0 20px;">Menú</button>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

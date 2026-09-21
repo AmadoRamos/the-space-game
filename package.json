@@ -1,0 +1,11 @@
+{
+  "name": "the-space-game",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Reimplementación de The Space Game (Casual Collective, v83) a partir del SWF decompilado.",
+  "scripts": {
+    "start": "node web/serve.js 8123",
+    "check": "node web/check.js"
+  }
+}

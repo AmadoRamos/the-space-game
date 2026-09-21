@@ -1,0 +1,350 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; background: #070a10; }
+    * { box-sizing: border-box; }
+    .num { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+           font-variant-numeric: tabular-nums; }
+    .cap { font-size: 11px; color: #7f8fa8; margin-top: 4px; }
+    .ttl { font-size: 12.5px; font-weight: 600; }
+    .sec { display: flex; align-items: baseline; gap: 14px; margin-top: 30px;
+           padding-top: 22px; border-top: 1px solid rgba(150,180,215,.09); }
+    .panel { border-radius: 16px; border: 1px solid rgba(150,180,215,.10);
+             background: rgba(8,11,18,.6); padding: 12px; }
+  </style>
+</helmet>
+
+<div style="width: 880px; min-height: 1760px; padding: 40px; display: flex; flex-direction: column;
+            background: radial-gradient(760px 620px at 50% 4%, #1a1626 0%, #0e0d14 50%, #070a10 100%);
+            font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            color: #e6ecf5; letter-spacing: -0.01em;">
+
+  <!-- ══ cabecera ════════════════════════════════════════════════════ -->
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+    <div>
+      <div style="font-size: 25px; font-weight: 600; letter-spacing: -0.03em;">Efectos</div>
+      <div style="font-size: 13px; color: #7f8fa8; margin-top: 7px; max-width: 500px;
+                  text-wrap: pretty;">
+        Casi todo dura dos fotogramas. El disparo no es una animación: es un destello que tiene que
+        ser legible en 50 ms y desaparecer sin dejar suciedad en pantalla.
+      </div>
+    </div>
+    <div class="num" style="font-size: 11px; color: #5f6d82; text-align: right; line-height: 1.7;">
+      40 fps · 1 tick = 25 ms<br>láser = 2 ticks
+    </div>
+  </div>
+
+  <!-- ══ LÁSER ═══════════════════════════════════════════════════════ -->
+  <div class="sec">
+    <div style="font-size: 16px; font-weight: 600;">Láser</div>
+    <div style="font-size: 12px; color: #7f8fa8;">
+      Una línea dibujada, no un proyectil: el daño se aplica en el mismo fotograma.
+      Alfa <span class="num" style="color: #b7c2d2;">80 + random(20)</span> — parpadea sola.
+    </div>
+    <div class="num" style="font-size: 11px; color: #5f6d82; margin-left: auto;">DoAction.as:1152</div>
+  </div>
+
+  <div class="panel" style="margin-top: 20px;">
+    <svg viewBox="0 0 800 260" width="800" height="260" style="display: block;" aria-hidden="true">
+
+      <!-- carriles de tiempo -->
+      <g stroke="rgba(150,180,215,.10)" stroke-width="1">
+        <path d="M96 34 V240"/><path d="M292 34 V240"/><path d="M488 34 V240"/><path d="M684 34 V240"/>
+      </g>
+      <g fill="#5f6d82" font-size="10.5" font-family="IBM Plex Mono, monospace">
+        <text x="176" y="26">tick 1</text><text x="372" y="26">tick 2</text>
+        <text x="560" y="26">tick 3 · apagado</text>
+      </g>
+
+      <!-- pulso -->
+      <text x="8" y="72" fill="#c8d2e0" font-size="12" font-family="IBM Plex Mono, monospace">Pulse</text>
+      <text x="8" y="88" fill="#5f6d82" font-size="10" font-family="IBM Plex Mono, monospace">grosor 1</text>
+      <path d="M100 68 H288" stroke="#EE8F6E" stroke-width="1.6" opacity=".97" stroke-linecap="round"/>
+      <path d="M296 68 H484" stroke="#EE8F6E" stroke-width="1.6" opacity=".82" stroke-linecap="round"/>
+      <circle cx="100" cy="68" r="4.5" fill="#EE8F6E" opacity=".3"/>
+      <circle cx="484" cy="68" r="5" fill="#EE8F6E" opacity=".22"/>
+
+      <!-- THEL -->
+      <text x="8" y="130" fill="#c8d2e0" font-size="12" font-family="IBM Plex Mono, monospace">THEL</text>
+      <text x="8" y="146" fill="#5f6d82" font-size="10" font-family="IBM Plex Mono, monospace">grosor 3</text>
+      <path d="M100 126 H288" stroke="#EE8F6E" stroke-width="4.4" opacity=".95" stroke-linecap="round"/>
+      <path d="M296 126 H484" stroke="#EE8F6E" stroke-width="4.4" opacity=".84" stroke-linecap="round"/>
+      <path d="M100 126 H484" stroke="#EE8F6E" stroke-width="9" opacity=".12" stroke-linecap="round"/>
+      <circle cx="484" cy="126" r="8" fill="#EE8F6E" opacity=".2"/>
+
+      <!-- enemigo -->
+      <text x="8" y="188" fill="#c8d2e0" font-size="12" font-family="IBM Plex Mono, monospace">Enemigo</text>
+      <text x="8" y="204" fill="#5f6d82" font-size="10" font-family="IBM Plex Mono, monospace">grosor 1</text>
+      <path d="M100 184 H288" stroke="#E06A6A" stroke-width="1.6" opacity=".9" stroke-linecap="round"/>
+      <path d="M296 184 H484" stroke="#E06A6A" stroke-width="1.6" opacity=".8" stroke-linecap="round"/>
+      <circle cx="484" cy="184" r="5" fill="#E06A6A" opacity=".22"/>
+
+      <!-- minado -->
+      <text x="8" y="238" fill="#c8d2e0" font-size="12" font-family="IBM Plex Mono, monospace">Minado</text>
+      <path d="M100 234 H288" stroke="#8ED07A" stroke-width="2" opacity=".9" stroke-linecap="round"/>
+      <path d="M296 234 H484" stroke="#8ED07A" stroke-width="2" opacity=".78" stroke-linecap="round"/>
+
+      <!-- opción láseres lentos -->
+      <g opacity=".55">
+        <path d="M492 68 H680" stroke="#EE8F6E" stroke-width="1.6" opacity=".6"
+              stroke-dasharray="4 4" stroke-linecap="round"/>
+        <path d="M492 126 H680" stroke="#EE8F6E" stroke-width="4.4" opacity=".55"
+              stroke-dasharray="4 4" stroke-linecap="round"/>
+        <path d="M492 184 H680" stroke="#E06A6A" stroke-width="1.6" opacity=".6"
+              stroke-dasharray="4 4" stroke-linecap="round"/>
+      </g>
+      <text x="700" y="120" fill="#7f8fa8" font-size="11"
+            font-family="IBM Plex Mono, monospace">con la opción</text>
+      <text x="700" y="136" fill="#7f8fa8" font-size="11"
+            font-family="IBM Plex Mono, monospace">«láseres lentos»</text>
+      <text x="700" y="156" fill="#5f6d82" font-size="11"
+            font-family="IBM Plex Mono, monospace">viven 4 ticks</text>
+    </svg>
+  </div>
+
+  <div style="margin-top: 14px; font-size: 12px; color: #6c7a8f; text-wrap: pretty; max-width: 680px;">
+    El grosor es la única diferencia que el motor da entre un pulso y un THEL, así que la refuerzo
+    con el halo: el THEL lleva un resplandor ancho debajo de la línea y una bola en el punto de
+    impacto. A 50 ms, un halo se percibe aunque la línea no se llegue a leer.
+  </div>
+
+  <!-- ══ MISIL ═══════════════════════════════════════════════════════ -->
+  <div class="sec">
+    <div style="font-size: 16px; font-weight: 600;">Misil</div>
+    <div style="font-size: 12px; color: #7f8fa8;">
+      Sí es un objeto: acelera de 1 a 8, cierra el giro mientras se acerca y detona a 15 de distancia.
+    </div>
+    <div class="num" style="font-size: 11px; color: #5f6d82; margin-left: auto;">rocket.as:68</div>
+  </div>
+
+  <div class="panel" style="margin-top: 20px;">
+    <svg viewBox="0 0 800 250" width="800" height="250" style="display: block;" aria-hidden="true">
+
+      <!-- lanzador -->
+      <g transform="translate(70 190) scale(1.1) translate(-32 -32)">
+        <rect x="21" y="26" width="22" height="20" rx="4.5"
+              fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.6"/>
+        <path d="M21 30 h22 M21 42 h22" stroke="#1a2432" stroke-width="0.8"/>
+        <rect x="29" y="12" width="6" height="16" rx="3"
+              fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+        <circle cx="32" cy="14.2" r="1.9" fill="#EE8F6E"/>
+        <circle cx="21" cy="36" r="2.3" fill="none" stroke="#5AB8D9" stroke-width="1.4"/>
+      </g>
+
+      <!-- trayectoria: se endereza al acercarse -->
+      <path d="M76 168 C 150 96, 250 210, 360 132 S 540 60, 636 96"
+            fill="none" stroke="#EE8F6E" stroke-width="1.2" stroke-dasharray="3 6" opacity=".35"/>
+
+      <!-- estela: los puntos se separan porque acelera -->
+      <g fill="#EE8F6E">
+        <circle cx="86" cy="158" r="1.6" opacity=".25"/>
+        <circle cx="100" cy="146" r="1.7" opacity=".3"/>
+        <circle cx="118" cy="134" r="1.8" opacity=".36"/>
+        <circle cx="142" cy="122" r="1.9" opacity=".42"/>
+        <circle cx="174" cy="118" r="2.0" opacity=".48"/>
+        <circle cx="214" cy="130" r="2.1" opacity=".54"/>
+        <circle cx="262" cy="152" r="2.2" opacity=".6"/>
+        <circle cx="318" cy="158" r="2.3" opacity=".66"/>
+        <circle cx="382" cy="140" r="2.4" opacity=".72"/>
+        <circle cx="452" cy="118" r="2.5" opacity=".8"/>
+        <circle cx="524" cy="104" r="2.6" opacity=".88"/>
+      </g>
+
+      <!-- el misil -->
+      <g transform="translate(576 98) rotate(-12)">
+        <path d="M0 -9 L4 2 L2.6 9 L-2.6 9 L-4 2 Z"
+              fill="#14100e" stroke="#6b4a3a" stroke-width="1.2"/>
+        <path d="M4 2 L9 8 L7 10 L2.6 7 Z" fill="#14100e" stroke="#6b4a3a" stroke-width="1"/>
+        <path d="M-4 2 L-9 8 L-7 10 L-2.6 7 Z" fill="#14100e" stroke="#6b4a3a" stroke-width="1"/>
+        <circle cx="0" cy="-5" r="2" fill="#EE8F6E"/>
+        <path d="M0 9 L0 17" stroke="#EE8F6E" stroke-width="3" stroke-linecap="round" opacity=".8"/>
+        <path d="M0 9 L0 23" stroke="#EE8F6E" stroke-width="6" stroke-linecap="round" opacity=".18"/>
+      </g>
+
+      <!-- objetivo y umbral de detonación -->
+      <g transform="translate(660 88) scale(0.95) rotate(160)">
+        <path d="M38 26 L55 42 L51 47 L36 39 Z" fill="#141014" stroke="#4a3038" stroke-width="1.3"
+              transform="translate(-32 -32)"/>
+        <path d="M26 26 L9 42 L13 47 L28 39 Z" fill="#141014" stroke="#4a3038" stroke-width="1.3"
+              transform="translate(-32 -32)"/>
+        <path d="M32 5 L38 26 L36 49 L28 49 L26 26 Z" fill="#141014" stroke="#4a3038"
+              stroke-width="1.5" transform="translate(-32 -32)"/>
+        <circle cx="0" cy="-3" r="3.4" fill="#E06A6A"/>
+      </g>
+      <circle cx="660" cy="88" r="30" fill="none" stroke="#EE8F6E" stroke-width="1"
+              stroke-dasharray="2 4" opacity=".6"/>
+      <text x="696" y="92" fill="#EE8F6E" font-size="11"
+            font-family="IBM Plex Mono, monospace">detona a 15</text>
+
+      <!-- anotaciones de velocidad -->
+      <text x="96" y="196" fill="#7f8fa8" font-size="11"
+            font-family="IBM Plex Mono, monospace">velocidad 1 · giro amplio</text>
+      <text x="450" y="216" fill="#7f8fa8" font-size="11"
+            font-family="IBM Plex Mono, monospace">velocidad 8 · giro cerrado</text>
+      <path d="M120 202 H300" stroke="rgba(150,180,215,.16)" stroke-width="1"/>
+      <path d="M470 222 H636" stroke="rgba(150,180,215,.16)" stroke-width="1"/>
+
+      <text x="8" y="30" fill="#5f6d82" font-size="10.5"
+            font-family="IBM Plex Mono, monospace">+0,05 por tick hasta 8 · combustible 300 ticks</text>
+    </svg>
+  </div>
+
+  <div style="margin-top: 14px; font-size: 12px; color: #6c7a8f; text-wrap: pretty; max-width: 680px;">
+    La estela cuenta la aceleración sola: los puntos nacen juntos y se separan según coge velocidad,
+    así que se ve si un misil acaba de salir o ya va lanzado sin poner ningún número.
+  </div>
+
+  <!-- ══ SALPICADURA ═════════════════════════════════════════════════ -->
+  <div class="sec">
+    <div style="font-size: 16px; font-weight: 600;">Salpicadura</div>
+    <div style="font-size: 12px; color: #7f8fa8;">
+      Daño completo en el blanco y caída lineal hasta cero en el borde:
+      <span class="num" style="color: #b7c2d2;">daño / radio × (radio − distancia)</span>.
+    </div>
+    <div class="num" style="font-size: 11px; color: #5f6d82; margin-left: auto;">DoAction.as:1200</div>
+  </div>
+
+  <div style="display: flex; gap: 16px; margin-top: 20px;">
+    <div class="panel" style="flex: 1;">
+      <svg viewBox="0 0 380 250" width="380" height="250" style="display: block;" aria-hidden="true">
+        <!-- anillos de caída -->
+        <circle cx="150" cy="125" r="105" fill="#EE8F6E" opacity=".05"/>
+        <circle cx="150" cy="125" r="80" fill="#EE8F6E" opacity=".07"/>
+        <circle cx="150" cy="125" r="55" fill="#EE8F6E" opacity=".1"/>
+        <circle cx="150" cy="125" r="30" fill="#EE8F6E" opacity=".16"/>
+        <circle cx="150" cy="125" r="105" fill="none" stroke="#EE8F6E"
+                stroke-width="1.2" stroke-dasharray="3 5" opacity=".5"/>
+        <circle cx="150" cy="125" r="13" fill="#EE8F6E"/>
+        <circle cx="150" cy="125" r="22" fill="none" stroke="#EE8F6E" stroke-width="2.4" opacity=".7"/>
+
+        <!-- escala de daño -->
+        <path d="M150 125 H255" stroke="rgba(230,236,245,.3)" stroke-width="1"/>
+        <g fill="#c8d2e0" font-size="10.5" font-family="IBM Plex Mono, monospace">
+          <text x="158" y="118">550</text>
+        </g>
+        <g fill="#7f8fa8" font-size="10" font-family="IBM Plex Mono, monospace">
+          <text x="196" y="150">275</text><text x="240" y="150">0</text>
+        </g>
+        <g fill="#5f6d82" font-size="10" font-family="IBM Plex Mono, monospace">
+          <text x="120" y="248">radio 48,4 · nivel 3</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="panel" style="width: 372px; display: flex; flex-direction: column; justify-content: center;">
+      <div style="padding: 4px 10px;">
+        <div style="font-size: 13px; font-weight: 600; color: #E06A6A;">La excepción: Ringers</div>
+        <div style="font-size: 12px; color: #8b9bb4; margin-top: 8px; text-wrap: pretty;">
+          Un misil contra un Ringer hace <span class="num" style="color: #E06A6A;">daño / 15</span>
+          y le enciende el escudo. El anillo es, literalmente, blindaje antimisil.
+        </div>
+        <div style="margin-top: 16px; display: flex; align-items: center; gap: 18px;">
+          <svg viewBox="0 0 64 64" width="76" height="76" aria-hidden="true">
+            <circle cx="32" cy="32" r="27" fill="#E06A6A" opacity=".16"/>
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#E06A6A" stroke-width="2.4" opacity=".9"/>
+            <circle cx="32" cy="32" r="21" fill="none" stroke="#4a3038" stroke-width="4"/>
+            <g stroke="#4a3038" stroke-width="2.6" stroke-linecap="round">
+              <path d="M32 21 V13 M32 43 v8 M21 32 H13 M43 32 h8"/>
+            </g>
+            <circle cx="32" cy="32" r="10.5" fill="#141014" stroke="#4a3038" stroke-width="1.5"/>
+            <circle cx="32" cy="32" r="4.2" fill="#E06A6A"/>
+          </svg>
+          <div>
+            <div class="num" style="font-size: 20px; font-weight: 600; color: #E06A6A;">550 → 37</div>
+            <div class="num cap">escudo al 100 %, se apaga −10 / tick</div>
+          </div>
+        </div>
+        <div style="margin-top: 16px; font-size: 12px; color: #6c7a8f; text-wrap: pretty;">
+          Por eso el escudo se dibuja como un destello del propio anillo y no como una capa nueva:
+          lo que brilla es la pieza que te está anulando el disparo.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ DESTRUCCIÓN ═════════════════════════════════════════════════ -->
+  <div class="sec">
+    <div style="font-size: 16px; font-weight: 600;">Destrucción</div>
+    <div style="font-size: 12px; color: #7f8fa8;">
+      Cuatro fotogramas y fuera. Lo que queda en pantalla no es humo: es información.
+    </div>
+  </div>
+
+  <div class="panel" style="margin-top: 20px;">
+    <svg viewBox="0 0 800 200" width="800" height="200" style="display: block;" aria-hidden="true">
+
+      <g fill="#7f8fa8" font-size="10.5" font-family="IBM Plex Mono, monospace">
+        <text x="52" y="22">tick 1</text><text x="212" y="22">tick 2</text>
+        <text x="372" y="22">tick 3</text><text x="532" y="22">tick 4</text>
+        <text x="676" y="22">después</text>
+      </g>
+
+      <!-- 1 · destello -->
+      <g transform="translate(80 100)">
+        <circle r="26" fill="#E9C15A" opacity=".9"/>
+        <circle r="38" fill="#E9C15A" opacity=".22"/>
+      </g>
+
+      <!-- 2 · anillo que se abre -->
+      <g transform="translate(240 100)">
+        <circle r="34" fill="none" stroke="#E06A6A" stroke-width="6" opacity=".75"/>
+        <circle r="14" fill="#E9C15A" opacity=".5"/>
+        <g stroke="#E06A6A" stroke-width="2" stroke-linecap="round" opacity=".7">
+          <path d="M0 -34 L0 -46 M0 34 L0 46 M-34 0 L-46 0 M34 0 L46 0"/>
+          <path d="M-24 -24 L-33 -33 M24 24 L33 33 M24 -24 L33 -33 M-24 24 L-33 33"/>
+        </g>
+      </g>
+
+      <!-- 3 · escombros -->
+      <g transform="translate(400 100)">
+        <circle r="42" fill="none" stroke="#E06A6A" stroke-width="2" opacity=".3"/>
+        <g fill="#3a3028">
+          <path d="M-18 -12 l7 -4 4 7 -6 4 z"/><path d="M14 -20 l6 2 -1 7 -6 -2 z"/>
+          <path d="M22 10 l5 5 -5 5 -4 -6 z"/><path d="M-8 22 l6 1 -1 6 -6 -2 z"/>
+          <path d="M-26 8 l5 3 -3 6 -5 -3 z"/>
+        </g>
+      </g>
+
+      <!-- 4 · escombros dispersos -->
+      <g transform="translate(560 100)" opacity=".55">
+        <g fill="#3a3028">
+          <path d="M-26 -18 l7 -4 4 7 -6 4 z"/><path d="M20 -28 l6 2 -1 7 -6 -2 z"/>
+          <path d="M32 16 l5 5 -5 5 -4 -6 z"/><path d="M-12 32 l6 1 -1 6 -6 -2 z"/>
+          <path d="M-38 12 l5 3 -3 6 -5 -3 z"/>
+        </g>
+      </g>
+
+      <!-- 5 · nada -->
+      <g transform="translate(712 100)">
+        <circle r="30" fill="none" stroke="rgba(150,180,215,.14)" stroke-width="1"
+                stroke-dasharray="3 5"/>
+        <text x="0" y="4" fill="#5f6d82" font-size="10.5" text-anchor="middle"
+              font-family="IBM Plex Mono, monospace">hueco libre</text>
+      </g>
+    </svg>
+  </div>
+
+  <div style="margin-top: 20px; font-size: 12px; color: #6c7a8f; text-wrap: pretty; max-width: 680px;">
+    El único resto que dura es el círculo de trazos: marca que ahí hay sitio para volver a construir,
+    y se apaga en cuanto colocas algo. Cualquier otra cosa que sobreviva a la explosión estorba en una
+    partida en la que caen veinte naves a la vez.
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":880,"height":1760}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

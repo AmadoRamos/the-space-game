@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "the-space-game",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["web/serve.js"],
+      "port": 8123,
+      "autoPort": true
+    }
+  ]
+}

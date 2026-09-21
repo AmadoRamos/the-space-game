@@ -1,0 +1,426 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; background: #070a10; }
+    * { box-sizing: border-box; }
+    .num { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+           font-variant-numeric: tabular-nums; }
+    .nav { display: flex; align-items: center; gap: 12px; padding: 11px 14px;
+           border-radius: 10px; font-size: 14.5px; color: #93a1b8; cursor: pointer;
+           border: 1px solid transparent; }
+    .nav.on { color: #e6ecf5; font-weight: 600;
+              background: rgba(90,184,217,.10); border-color: rgba(90,184,217,.26); }
+    .nav .k { font-size: 11px; color: #5f6d82; margin-left: auto; }
+    .grp { font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
+           color: #55627a; margin: 22px 0 8px 14px; }
+    .diff { width: 210px; padding: 16px; border-radius: 13px;
+            border: 1px solid rgba(150,180,215,.11); background: rgba(150,180,215,.035);
+            cursor: pointer; }
+    .diff.on { border-color: rgba(90,184,217,.40); background: rgba(90,184,217,.09); }
+    .row { display: flex; justify-content: space-between; gap: 8px;
+           font-size: 11.5px; padding: 2.5px 0; }
+    .row span:first-child { color: #7f8fa8; }
+    .row span:last-child { color: #c8d2e0; }
+  </style>
+</helmet>
+
+<div style="position: relative; width: 1440px; height: 900px; overflow: hidden;
+            background: radial-gradient(1200px 820px at 74% 42%, #16233a 0%, #0c1219 48%, #06080d 100%);
+            font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            color: #e6ecf5; letter-spacing: -0.01em;">
+
+  <!-- ══ fondo: el propio campo, quieto y muy apagado ═══════════════ -->
+  <svg viewBox="0 0 1440 900" width="1440" height="900"
+       style="position: absolute; inset: 0;" aria-hidden="true">
+    <defs>
+      <radialGradient id="mroca" cx="34%" cy="28%">
+        <stop offset="0%" stop-color="#3a3327"/>
+        <stop offset="58%" stop-color="#241f18"/>
+        <stop offset="100%" stop-color="#14110d"/>
+      </radialGradient>
+
+      <symbol id="me1" viewBox="0 0 64 64">
+        <path d="M38 26 L55 42 L51 47 L36 39 Z" fill="#141014" stroke="#4a3038" stroke-width="1.3"/>
+        <path d="M26 26 L9 42 L13 47 L28 39 Z" fill="#141014" stroke="#4a3038" stroke-width="1.3"/>
+        <path d="M32 5 L38 26 L36 49 L28 49 L26 26 Z"
+              fill="#141014" stroke="#4a3038" stroke-width="1.5"/>
+        <path d="M32 9 L32 47" stroke="#2a1c22" stroke-width="0.9"/>
+        <circle cx="32" cy="29" r="3.4" fill="#E06A6A"/>
+      </symbol>
+      <symbol id="me3" viewBox="0 0 64 64">
+        <path d="M32 8 L49 33 L45 52 L19 52 L15 33 Z"
+              fill="#141014" stroke="#4a3038" stroke-width="1.5"/>
+        <path d="M22 30 L42 30 M20 41 L44 41" stroke="#2a1c22" stroke-width="0.9"/>
+        <circle cx="32" cy="34" r="9.5" fill="none" stroke="#2a1c22" stroke-width="0.9"/>
+        <circle cx="32" cy="34" r="6.4" fill="#E06A6A"/>
+        <path d="M15 33 L10 46 M49 33 L54 46" stroke="#4a3038" stroke-width="1.6"
+              stroke-linecap="round"/>
+      </symbol>
+      <symbol id="me4" viewBox="0 0 64 64">
+        <circle cx="32" cy="32" r="21" fill="none" stroke="#4a3038" stroke-width="4"/>
+        <g stroke="#4a3038" stroke-width="2.6" stroke-linecap="round">
+          <path d="M32 21 V13 M32 43 v8 M21 32 H13 M43 32 h8"/>
+        </g>
+        <circle cx="32" cy="32" r="10.5" fill="#141014" stroke="#4a3038" stroke-width="1.5"/>
+        <circle cx="32" cy="32" r="4.2" fill="#E06A6A"/>
+      </symbol>
+      <symbol id="me5" viewBox="0 0 64 64">
+        <path d="M32 9 L48 51 L32 42 L16 51 Z"
+              fill="#141014" stroke="#4a3038" stroke-width="1.8"/>
+        <circle cx="32" cy="30" r="3.6" fill="#E06A6A"/>
+      </symbol>
+      <symbol id="me2" viewBox="0 0 64 64">
+        <path d="M37 27 L49 37 L47 43 L36 38 Z" fill="#141014" stroke="#4a3038" stroke-width="1.3"/>
+        <path d="M27 27 L15 37 L17 43 L28 38 Z" fill="#141014" stroke="#4a3038" stroke-width="1.3"/>
+        <rect x="43" y="33" width="7" height="17" rx="3.2"
+              fill="#141014" stroke="#4a3038" stroke-width="1.3"/>
+        <rect x="14" y="33" width="7" height="17" rx="3.2"
+              fill="#141014" stroke="#4a3038" stroke-width="1.3"/>
+        <circle cx="46.5" cy="35.4" r="2.1" fill="#E06A6A"/>
+        <circle cx="17.5" cy="35.4" r="2.1" fill="#E06A6A"/>
+        <path d="M32 7 L37 27 L35 49 L29 49 L27 27 Z"
+              fill="#141014" stroke="#4a3038" stroke-width="1.5"/>
+        <circle cx="32" cy="30" r="2.8" fill="#E06A6A"/>
+      </symbol>
+      <symbol id="me6" viewBox="0 0 64 64">
+        <path d="M32 2 L58 17 L58 47 L32 62 L6 47 L6 17 Z"
+              fill="#141014" stroke="#4a3038" stroke-width="1.6"/>
+        <path d="M32 8 L53 20 L53 44 L32 56 L11 44 L11 20 Z"
+              fill="none" stroke="#2a1c22" stroke-width="0.9"/>
+        <g fill="#0d0a0c" stroke="#4a3038" stroke-width="1.2">
+          <rect x="1.5" y="24" width="8" height="7" rx="2"/>
+          <rect x="1.5" y="34" width="8" height="7" rx="2"/>
+          <rect x="54.5" y="24" width="8" height="7" rx="2"/>
+          <rect x="54.5" y="34" width="8" height="7" rx="2"/>
+        </g>
+        <circle cx="32" cy="32" r="11" fill="#0d0a0c" stroke="#4a3038" stroke-width="1.5"/>
+        <circle cx="32" cy="32" r="6" fill="#E06A6A"/>
+      </symbol>
+    </defs>
+
+    <!-- estrellas -->
+    <g fill="#ffffff">
+      <circle cx="618" cy="96" r="1.1" opacity=".4"/><circle cx="743" cy="181" r="0.8" opacity=".26"/>
+      <circle cx="817" cy="62" r="1.3" opacity=".5"/><circle cx="904" cy="228" r="0.7" opacity=".22"/>
+      <circle cx="1012" cy="118" r="1" opacity=".38"/><circle cx="1096" cy="304" r="0.8" opacity=".3"/>
+      <circle cx="1181" cy="74" r="1.2" opacity=".44"/><circle cx="1242" cy="206" r="0.7" opacity=".22"/>
+      <circle cx="1336" cy="139" r="1.1" opacity=".4"/><circle cx="1418" cy="46" r="0.9" opacity=".32"/>
+      <circle cx="604" cy="452" r="0.8" opacity=".24"/><circle cx="758" cy="524" r="1.1" opacity=".36"/>
+      <circle cx="886" cy="612" r="0.7" opacity=".22"/><circle cx="1044" cy="486" r="1.2" opacity=".4"/>
+      <circle cx="1188" cy="642" r="0.9" opacity=".3"/><circle cx="1344" cy="546" r="1" opacity=".36"/>
+      <circle cx="952" cy="792" r="0.7" opacity=".2"/><circle cx="1272" cy="758" r="1.1" opacity=".34"/>
+      <circle cx="668" cy="812" r="0.8" opacity=".24"/><circle cx="1402" cy="700" r="1" opacity=".3"/>
+    </g>
+
+    <!-- asteroides lejanos -->
+    <g opacity=".62">
+      <path d="M32 4 L46 9 L56 22 L57 36 L47 50 L33 58 L19 55 L8 45 L4 30 L9 15 L19 7 Z"
+            fill="url(#mroca)" stroke="#453d2c" stroke-width="1.2"
+            transform="translate(1210 250) rotate(20) scale(1.5) translate(-32 -32)"/>
+      <path d="M32 3 L44 12 L52 28 L50 44 L38 57 L26 58 L14 48 L11 32 L16 14 L24 6 Z"
+            fill="url(#mroca)" stroke="#453d2c" stroke-width="1.2"
+            transform="translate(760 690) rotate(140) scale(1.1) translate(-32 -32)"/>
+      <path d="M32 6 L50 14 L58 31 L48 46 L30 57 L14 50 L5 34 L10 16 Z"
+            fill="url(#mroca)" stroke="#453d2c" stroke-width="1.2"
+            transform="translate(1370 620) rotate(250) scale(0.9) translate(-32 -32)"/>
+    </g>
+
+    <!-- una red inactiva, muy tenue -->
+    <g stroke="#5AB8D9" fill="none" stroke-linecap="round" opacity=".22">
+      <path d="M980 470 L860 400" stroke-width="1.4"/>
+      <path d="M980 470 L1108 512" stroke-width="1.4"/>
+      <path d="M980 470 L996 606" stroke-width="1.4"/>
+      <path d="M860 400 L742 344" stroke-width="1.1"/>
+      <path d="M1108 512 L1214 460" stroke-width="1.1"/>
+    </g>
+    <g fill="#0f1724" stroke="#5AB8D9" stroke-width="1.4" opacity=".4">
+      <circle cx="980" cy="470" r="11"/><circle cx="860" cy="400" r="6"/>
+      <circle cx="1108" cy="512" r="6"/><circle cx="742" cy="344" r="7"/>
+      <circle cx="1214" cy="460" r="7"/><circle cx="996" cy="606" r="7"/>
+    </g>
+  </svg>
+
+  <!-- viñeta -->
+  <div style="position: absolute; inset: 0; pointer-events: none;
+              background:
+                linear-gradient(90deg, rgba(4,6,10,.94) 0%, rgba(4,6,10,.72) 30%, rgba(4,6,10,0) 52%),
+                radial-gradient(120% 100% at 60% 44%, rgba(0,0,0,0) 40%, rgba(4,6,10,.7) 100%);"></div>
+
+  <!-- ══ RAÍL IZQUIERDO ══════════════════════════════════════════════ -->
+  <div style="position: absolute; left: 0; top: 0; width: 440px; height: 900px;
+              padding: 56px 48px 40px; display: flex; flex-direction: column;
+              border-right: 1px solid rgba(150,180,215,.08);">
+
+    <!-- título -->
+    <div style="font-size: 52px; font-weight: 700; line-height: 0.94; letter-spacing: -0.045em;">
+      THE<br>SPACE<br>GAME
+    </div>
+    <div style="margin-top: 20px; width: 56px; height: 2px; background: #5AB8D9;"></div>
+    <div style="margin-top: 16px; font-size: 14px; color: #8b9bb4;">
+      Mina, conecta, defiende.
+    </div>
+
+    <!-- navegación -->
+    <div style="margin-top: 34px; flex-grow: 1;">
+      <div class="grp">Primeros pasos</div>
+      <div class="nav">
+        Entrenamiento
+        <span class="num k">2 / 2</span>
+      </div>
+
+      <div class="grp">Partida</div>
+      <div class="nav on">
+        Campaña
+        <span class="num k" style="color: #5AB8D9;">4</span>
+      </div>
+      <div class="nav">
+        Supervivencia
+        <span class="num k">3</span>
+      </div>
+      <div class="nav">
+        Misiones
+        <span class="num k">9</span>
+      </div>
+
+      <div class="grp">Sueltos</div>
+      <div class="nav">Modo oleada</div>
+      <div class="nav">Minero veloz</div>
+      <div class="nav">Caja de arena</div>
+    </div>
+
+    <!-- pie del raíl -->
+    <div style="display: flex; align-items: center; gap: 20px; font-size: 13px; color: #6c7a8f;">
+      <span style="cursor: pointer;">Opciones</span>
+      <span style="cursor: pointer;">Créditos</span>
+      <div style="margin-left: auto; display: flex; gap: 6px;">
+        <span style="display: flex; align-items: center; justify-content: center;
+                     width: 32px; height: 32px; border-radius: 8px;
+                     background: rgba(150,180,215,.06); cursor: pointer;">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#8b9bb4"
+               stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.4 9.2a4 4 0 0 1 0 5.6"/>
+          </svg>
+        </span>
+        <span style="display: flex; align-items: center; justify-content: center;
+                     width: 32px; height: 32px; border-radius: 8px;
+                     background: rgba(150,180,215,.06); cursor: pointer;">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#8b9bb4"
+               stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+            <path d="M9 18V7.5l9-1.8V16"/><circle cx="6.6" cy="18" r="2.6"/>
+            <circle cx="15.6" cy="16" r="2.6"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PANEL DERECHO ═══════════════════════════════════════════════ -->
+  <div style="position: absolute; left: 440px; top: 0; width: 1000px; height: 900px;
+              padding: 76px 56px 56px; display: flex; flex-direction: column;">
+
+    <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+      <div>
+        <div style="font-size: 30px; font-weight: 600; letter-spacing: -0.03em;">Campaña</div>
+        <div style="font-size: 13.5px; color: #8b9bb4; margin-top: 8px; max-width: 520px;
+                    text-wrap: pretty;">
+          Un solo campo de asteroides. Mina hasta el objetivo antes de que las oleadas
+          te desmonten la red.
+        </div>
+      </div>
+      <div style="text-align: right;">
+        <div class="num" style="font-size: 11px; color: #5f6d82; letter-spacing: .05em;">MEJOR MARCA</div>
+        <div class="num" style="font-size: 22px; font-weight: 600; color: #E9A25A; margin-top: 4px;">
+          31 480
+        </div>
+      </div>
+    </div>
+
+    <!-- dificultades -->
+    <div style="display: flex; gap: 16px; margin-top: 34px;">
+
+      <div class="diff">
+        <div style="font-size: 16px; font-weight: 600;">Fácil</div>
+        <div class="num" style="font-size: 21px; font-weight: 600; color: #E9A25A;
+                                margin-top: 10px; letter-spacing: -0.02em;">15 000</div>
+        <div style="font-size: 11.5px; color: #7f8fa8; margin-top: 2px;">minerales para ganar</div>
+        <div style="margin-top: 14px; padding-top: 11px; border-top: 1px solid rgba(150,180,215,.10);">
+          <div class="row"><span>Empiezas con</span><span class="num">1 000</span></div>
+          <div class="row"><span>Asteroides</span><span class="num">50</span></div>
+          <div class="row"><span>Oleada cada</span><span class="num">75 s</span></div>
+        </div>
+      </div>
+
+      <div class="diff on">
+        <div style="display: flex; align-items: baseline; justify-content: space-between;">
+          <div style="font-size: 16px; font-weight: 600;">Normal</div>
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#5AB8D9"
+               stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4.5 12.5 9.5 17.5 19.5 6.5"/>
+          </svg>
+        </div>
+        <div class="num" style="font-size: 21px; font-weight: 600; color: #E9A25A;
+                                margin-top: 10px; letter-spacing: -0.02em;">30 000</div>
+        <div style="font-size: 11.5px; color: #7f8fa8; margin-top: 2px;">minerales para ganar</div>
+        <div style="margin-top: 14px; padding-top: 11px; border-top: 1px solid rgba(90,184,217,.16);">
+          <div class="row"><span>Empiezas con</span><span class="num">1 200</span></div>
+          <div class="row"><span>Asteroides</span><span class="num">60</span></div>
+          <div class="row"><span>Oleada cada</span><span class="num">70 s</span></div>
+        </div>
+      </div>
+
+      <div class="diff">
+        <div style="font-size: 16px; font-weight: 600;">Difícil</div>
+        <div class="num" style="font-size: 21px; font-weight: 600; color: #E9A25A;
+                                margin-top: 10px; letter-spacing: -0.02em;">40 000</div>
+        <div style="font-size: 11.5px; color: #7f8fa8; margin-top: 2px;">minerales para ganar</div>
+        <div style="margin-top: 14px; padding-top: 11px; border-top: 1px solid rgba(150,180,215,.10);">
+          <div class="row"><span>Empiezas con</span><span class="num">2 000</span></div>
+          <div class="row"><span>Asteroides</span><span class="num">80</span></div>
+          <div class="row"><span>Campo</span><span class="num">radio 600</span></div>
+        </div>
+      </div>
+
+      <div class="diff" style="border-color: rgba(224,106,106,.22);">
+        <div style="display: flex; align-items: baseline; justify-content: space-between;">
+          <div style="font-size: 16px; font-weight: 600; color: #E06A6A;">Locura</div>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#E06A6A"
+               stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+            <path d="M12 4.2 21 19.4H3z"/><path d="M12 10v4"/><path d="M12 16.6v.1"/>
+          </svg>
+        </div>
+        <div class="num" style="font-size: 21px; font-weight: 600; color: #E9A25A;
+                                margin-top: 10px; letter-spacing: -0.02em;">40 000</div>
+        <div style="font-size: 11.5px; color: #7f8fa8; margin-top: 2px;">minerales para ganar</div>
+        <div style="margin-top: 14px; padding-top: 11px; border-top: 1px solid rgba(224,106,106,.14);">
+          <div class="row"><span>Empiezas con</span><span class="num">2 500</span></div>
+          <div class="row"><span>Asteroides</span><span class="num">85</span></div>
+          <div class="row"><span>Campo</span><span class="num">radio 650</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- línea de oleadas -->
+    <div style="margin-top: 40px;">
+      <div style="display: flex; align-items: baseline; justify-content: space-between;">
+        <div style="font-size: 12.5px; color: #8b9bb4;">Primeras oleadas · Normal</div>
+        <div class="num" style="font-size: 11px; color: #5f6d82;">una cada 70 s · los seis tipos en orden</div>
+      </div>
+      <svg viewBox="0 0 888 96" width="888" height="96" style="display: block; margin-top: 14px;"
+           aria-hidden="true">
+        <path d="M8 62 H880" stroke="rgba(150,180,215,.14)" stroke-width="1"/>
+
+        <g>
+          <use href="#me1" x="54" y="22" width="24" height="24"/>
+          <path d="M66 50 V62" stroke="rgba(150,180,215,.2)" stroke-width="1"/>
+          <circle cx="66" cy="62" r="2.4" fill="#7f8fa8"/>
+          <text x="66" y="80" fill="#8b9bb4" font-size="10.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">1:20</text>
+          <text x="66" y="93" fill="#5f6d82" font-size="9.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">6 cazas</text>
+        </g>
+        <g>
+          <use href="#me2" x="188" y="22" width="24" height="24"/>
+          <path d="M200 50 V62" stroke="rgba(150,180,215,.2)" stroke-width="1"/>
+          <circle cx="200" cy="62" r="2.4" fill="#7f8fa8"/>
+          <text x="200" y="80" fill="#8b9bb4" font-size="10.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">2:30</text>
+          <text x="200" y="93" fill="#5f6d82" font-size="9.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">8 misileras</text>
+        </g>
+        <g>
+          <use href="#me3" x="322" y="22" width="24" height="24"/>
+          <path d="M334 50 V62" stroke="rgba(150,180,215,.2)" stroke-width="1"/>
+          <circle cx="334" cy="62" r="2.4" fill="#7f8fa8"/>
+          <text x="334" y="80" fill="#8b9bb4" font-size="10.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">3:40</text>
+          <text x="334" y="93" fill="#5f6d82" font-size="9.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">9 explosivas</text>
+        </g>
+        <g>
+          <use href="#me4" x="456" y="22" width="24" height="24"/>
+          <path d="M468 50 V62" stroke="rgba(150,180,215,.2)" stroke-width="1"/>
+          <circle cx="468" cy="62" r="2.4" fill="#7f8fa8"/>
+          <text x="468" y="80" fill="#8b9bb4" font-size="10.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">4:50</text>
+          <text x="468" y="93" fill="#5f6d82" font-size="9.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">12 ringers</text>
+        </g>
+        <g>
+          <use href="#me5" x="592" y="24" width="20" height="20"/>
+          <path d="M602 50 V62" stroke="rgba(150,180,215,.2)" stroke-width="1"/>
+          <circle cx="602" cy="62" r="2.4" fill="#7f8fa8"/>
+          <text x="602" y="80" fill="#8b9bb4" font-size="10.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">6:00</text>
+          <text x="602" y="93" fill="#5f6d82" font-size="9.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">15 swarmers</text>
+        </g>
+        <g>
+          <circle cx="782" cy="34" r="30" fill="#E06A6A" opacity=".07"/>
+          <use href="#me6" x="762" y="14" width="40" height="40"/>
+          <path d="M782 56 V62" stroke="rgba(224,106,106,.5)" stroke-width="1"/>
+          <circle cx="782" cy="62" r="3.2" fill="#E06A6A"/>
+          <text x="782" y="80" fill="#E06A6A" font-size="10.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">7:10</text>
+          <text x="782" y="93" fill="#E06A6A" font-size="9.5" text-anchor="middle"
+                font-family="IBM Plex Mono, monospace">5 nodrizas</text>
+        </g>
+      </svg>
+    </div>
+
+    <!-- acciones -->
+    <div style="margin-top: auto; display: flex; align-items: center; gap: 16px;">
+      <button style="display: flex; align-items: center; gap: 12px; padding: 0 34px;
+                     height: 60px; border: 0; border-radius: 13px; cursor: pointer;
+                     background: #5AB8D9; color: #06131a;
+                     font-family: inherit; font-size: 17px; font-weight: 600;
+                     letter-spacing: -0.01em; box-shadow: 0 14px 34px rgba(90,184,217,.22);">
+        Jugar
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true">
+          <path d="M8 5.4 19 12 8 18.6z"/>
+        </svg>
+      </button>
+
+      <button style="display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+                     padding: 11px 22px; height: 60px; justify-content: center; cursor: pointer;
+                     border: 1px solid rgba(150,180,215,.16); border-radius: 13px;
+                     background: rgba(150,180,215,.05); color: #cfd9e8; font-family: inherit;
+                     text-align: left;">
+        <span style="font-size: 14px; font-weight: 500;">Continuar</span>
+        <span class="num" style="font-size: 11px; color: #7f8fa8;">Normal · 4 812 · 07:41</span>
+      </button>
+
+      <div style="margin-left: auto; display: flex; align-items: center; gap: 10px;">
+        <span class="num" style="font-size: 11.5px; color: #5f6d82;">semilla</span>
+        <span class="num" style="padding: 7px 12px; border-radius: 8px; font-size: 12px;
+                                 color: #8b9bb4; background: rgba(150,180,215,.06);
+                                 border: 1px solid rgba(150,180,215,.10);">418</span>
+        <span style="display: flex; align-items: center; justify-content: center;
+                     width: 34px; height: 34px; border-radius: 8px; cursor: pointer;
+                     background: rgba(150,180,215,.06); border: 1px solid rgba(150,180,215,.10);">
+          <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="#8b9bb4"
+               stroke-width="1.6" stroke-linecap="round" aria-hidden="true">
+            <path d="M19.5 12a7.5 7.5 0 1 1-2.4-5.5"/><path d="M19.9 4.6v4.2h-4.2"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

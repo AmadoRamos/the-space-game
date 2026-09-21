@@ -1,0 +1,5 @@
+# Fuente decompilada del original y oráculo Python: no se redistribuyen
+DATA/
+.idea/
+node_modules/
+__pycache__/

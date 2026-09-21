@@ -1,0 +1,582 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; background: #070a10; }
+    * { box-sizing: border-box; }
+    a { color: #E9A25A; text-decoration: none; }
+    a:hover { color: #f6bd83; }
+    .num { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+           font-variant-numeric: tabular-nums; }
+  </style>
+</helmet>
+
+<div style="width: 880px; min-height: 1580px; padding: 40px; display: flex; flex-direction: column;
+            background: radial-gradient(760px 620px at 22% 6%, #131d2e 0%, #0b1018 52%, #070a10 100%);
+            font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            color: #e6ecf5; letter-spacing: -0.01em;">
+
+  <!-- ══ cabecera ════════════════════════════════════════════════════ -->
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+    <div>
+      <div style="font-size: 25px; font-weight: 600; letter-spacing: -0.03em;">Red y economía</div>
+      <div style="font-size: 13px; color: #7f8fa8; margin-top: 7px; max-width: 480px;
+                  text-wrap: pretty;">
+        Vector puro, sin píxel: nítido a cualquier resolución. Cuerpo casi negro contra el espacio,
+        color solo en la parte que hace el trabajo, y cada nivel añade masa a la silueta.
+      </div>
+    </div>
+    <div class="num" style="font-size: 11px; color: #5f6d82; text-align: right; line-height: 1.7;">
+      10 estados<br>viewBox 64 · sin tamaño fijo
+    </div>
+  </div>
+
+  <!-- ══ leyenda ═════════════════════════════════════════════════════ -->
+  <div style="display: flex; flex-wrap: wrap; gap: 10px 22px; margin-top: 22px; padding: 13px 16px;
+              border-radius: 10px; background: rgba(150,180,215,.045);
+              border: 1px solid rgba(150,180,215,.09);">
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="width: 9px; height: 9px; border-radius: 50%; background: #5AB8D9;"></span>
+      <span style="font-size: 12px; color: #a6b3c6;">Energía y red</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="width: 9px; height: 9px; border-radius: 50%; background: #E9A25A;"></span>
+      <span style="font-size: 12px; color: #a6b3c6;">Mineral</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="width: 9px; height: 9px; border-radius: 50%; background: #8ED07A;"></span>
+      <span style="font-size: 12px; color: #a6b3c6;">Reparación</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="width: 9px; height: 9px; border-radius: 50%; border: 1px solid #26313f;
+                   background: #131b26;"></span>
+      <span style="font-size: 12px; color: #a6b3c6;">Detalle fino — aparece en grande, se funde en pequeño</span>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+      <span style="width: 9px; height: 9px; border-radius: 50%; border: 1px dashed #5f6d82;"></span>
+      <span style="font-size: 12px; color: #a6b3c6;">Radio de colisión real</span>
+    </div>
+  </div>
+
+  <!-- ══ RELAY ═══════════════════════════════════════════════════════ -->
+  <div style="display: flex; gap: 28px; align-items: center; padding: 24px 0; margin-top: 14px;
+              border-top: 1px solid rgba(150,180,215,.09);">
+    <div style="width: 190px; flex-shrink: 0;">
+      <div style="font-size: 16px; font-weight: 600;">Relay</div>
+      <div style="font-size: 12px; color: #7f8fa8; margin-top: 5px; text-wrap: pretty;">
+        Extiende la red. Hasta 6 cables. Con 6 cables, el acento a medio rojo (<span class="num">mcLow</span> al 50 %).
+      </div>
+      <div class="num" style="font-size: 11px; color: #5f6d82; margin-top: 9px;">20 min · r8 · 100 PV</div>
+    </div>
+    <div style="display: flex; gap: 16px;">
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" color="#5AB8D9" width="118" height="118" aria-hidden="true">
+            <circle cx="32" cy="32" r="10" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <path d="M32 19 L43 25.5 L43 38.5 L32 45 L21 38.5 L21 25.5 Z"
+                  fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <path d="M32 22 L40 26.7 L40 36.3 L32 41 L24 36.3 L24 26.7 Z"
+                  fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M32 19 L32 22 M43 25.5 L40 26.7 M21 38.5 L24 36.3"
+                  stroke="#1a2432" stroke-width="0.7"/>
+            <path d="M32 19 L43 25.5" stroke="#3a4b63" stroke-width="1.4" stroke-linecap="round"/>
+            <path d="M32 19 V11 M43 25.5 L50 21.5 M21 38.5 L14 42.5"
+                  stroke="#2b3a4e" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="32" cy="11" r="2" fill="currentColor"/>
+            <circle cx="50" cy="21.5" r="2" fill="currentColor"/>
+            <circle cx="14" cy="42.5" r="2" fill="currentColor"/>
+            <circle cx="32" cy="32" r="4.6" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="32" cy="32" r="1.7" fill="currentColor"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600;">Único nivel</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">sin mejoras</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MINERO ══════════════════════════════════════════════════════ -->
+  <div style="display: flex; gap: 28px; align-items: center; padding: 24px 0;
+              border-top: 1px solid rgba(150,180,215,.09);">
+    <div style="width: 190px; flex-shrink: 0;">
+      <div style="font-size: 16px; font-weight: 600;">Minero</div>
+      <div style="font-size: 12px; color: #7f8fa8; margin-top: 5px; text-wrap: pretty;">
+        La mejora dobla el brazo: 4 → 10 por ciclo. Sin extraer, el acento en rojo; con el minado apagado, a medias.
+      </div>
+      <div class="num" style="font-size: 11px; color: #5f6d82; margin-top: 9px;">45 min · r15 · 300 PV</div>
+    </div>
+    <div style="display: flex; gap: 16px;">
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" color="#E9A25A" width="118" height="118" aria-hidden="true">
+            <circle cx="32" cy="32" r="17" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <path d="M46 30 L56 24" stroke="#2b3a4e" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M47 29.4 L54.5 24.9" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M55 24.6 l3.4 -2" stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+            <rect x="20" y="24" width="26" height="20" rx="5"
+                  fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <path d="M20 27.5 h26 M20 40.5 h26" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M23 24 v20" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M25 24 h16" stroke="#3a4b63" stroke-width="1.2" stroke-linecap="round"/>
+            <rect x="25" y="29" width="15" height="9.5" rx="2.4"
+                  fill="none" stroke="currentColor" stroke-width="1.4"/>
+            <circle cx="20" cy="34" r="2.4" fill="none" stroke="#5AB8D9" stroke-width="1.3"/>
+            <path d="M25 44 v3.6 M41 44 v3.6" stroke="#2b3a4e" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="33" cy="52" r="1.9" fill="currentColor"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600;">Nivel 1</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">4 / ciclo</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(233,162,90,.22); background: rgba(233,162,90,.05);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" color="#E9A25A" width="118" height="118" aria-hidden="true">
+            <circle cx="32" cy="32" r="17" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <path d="M48 27 L57.5 20.5 M48 39 L57.5 45.5"
+                  stroke="#2b3a4e" stroke-width="3.2" stroke-linecap="round"/>
+            <path d="M49 26.6 L56 21.8 M49 39.4 L56 44.2" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M56.6 21.1 l3.2 -2.2 M56.6 44.9 l3.2 2.2"
+                  stroke="currentColor" stroke-width="3.4" stroke-linecap="round"/>
+            <rect x="16" y="21" width="32" height="24" rx="6"
+                  fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <path d="M16 25 h32 M16 41 h32" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M19.5 21 v24 M44.5 21 v24" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M22 21 h20" stroke="#3a4b63" stroke-width="1.2" stroke-linecap="round"/>
+            <rect x="21" y="26" width="22" height="13" rx="3"
+                  fill="none" stroke="currentColor" stroke-width="1.4"/>
+            <rect x="23.5" y="28.5" width="17" height="8" rx="1.6" fill="currentColor" opacity=".5"/>
+            <path d="M27 28.5 v8 M32 28.5 v8 M37 28.5 v8" stroke="#0b0f16"
+                  stroke-width="0.7" opacity=".7"/>
+            <circle cx="16" cy="33" r="2.4" fill="none" stroke="#5AB8D9" stroke-width="1.3"/>
+            <path d="M21 45 v3.6 M43 45 v3.6" stroke="#2b3a4e" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="28" cy="53" r="1.9" fill="currentColor"/>
+            <circle cx="36" cy="53" r="1.9" fill="currentColor"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600; color: #E9A25A;">Nivel 2 · 100</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">10 / ciclo · 500 PV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PLANTA SOLAR ════════════════════════════════════════════════ -->
+  <div style="display: flex; gap: 28px; align-items: center; padding: 24px 0;
+              border-top: 1px solid rgba(150,180,215,.09);">
+    <div style="width: 190px; flex-shrink: 0;">
+      <div style="font-size: 16px; font-weight: 600;">Planta solar</div>
+      <div style="font-size: 12px; color: #7f8fa8; margin-top: 5px; text-wrap: pretty;">
+        Los paneles cuentan la eficiencia: 2, 4, 6.
+      </div>
+      <div class="num" style="font-size: 11px; color: #5f6d82; margin-top: 9px;">200 min · r25 · 600 PV</div>
+    </div>
+    <div style="display: flex; gap: 16px;">
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true" color="#5AB8D9">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <g stroke="#2b3a4e" stroke-width="1.3" fill="#0b0f16">
+              <rect x="38" y="27" width="19" height="10" rx="2.4"/>
+              <rect x="7" y="27" width="19" height="10" rx="2.4"/>
+            </g>
+            <g stroke="#1a2432" stroke-width="0.7">
+              <path d="M38 32 h19 M7 32 h19"/>
+            </g>
+            <g stroke="currentColor" stroke-width="1.1" opacity=".85">
+              <path d="M44.5 28.6 v6.8 M50.5 28.6 v6.8 M13.5 28.6 v6.8 M19.5 28.6 v6.8"/>
+            </g>
+            <circle cx="32" cy="32" r="9.5" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <circle cx="32" cy="32" r="7.4" fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M27 24.6 a9.5 9.5 0 0 1 10 0" stroke="#3a4b63" stroke-width="1.1"
+                  fill="none" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="32" cy="32" r="1.9" fill="currentColor"/>
+            <circle cx="32" cy="47" r="1.9" fill="currentColor"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600;">Nivel 1</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">0,3 ef · 4 E</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true" color="#5AB8D9">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <g stroke="#2b3a4e" stroke-width="1.3" fill="#0b0f16">
+              <rect x="38" y="27" width="19" height="10" rx="2.4"/>
+              <rect x="7" y="27" width="19" height="10" rx="2.4"/>
+              <rect x="38" y="27" width="19" height="10" rx="2.4" transform="rotate(90 32 32)"/>
+              <rect x="7" y="27" width="19" height="10" rx="2.4" transform="rotate(90 32 32)"/>
+            </g>
+            <g stroke="#1a2432" stroke-width="0.7">
+              <path d="M38 32 h19 M7 32 h19"/>
+              <path d="M38 32 h19 M7 32 h19" transform="rotate(90 32 32)"/>
+            </g>
+            <g stroke="currentColor" stroke-width="1.1" opacity=".85">
+              <path d="M44.5 28.6 v6.8 M50.5 28.6 v6.8 M13.5 28.6 v6.8 M19.5 28.6 v6.8"/>
+              <path d="M44.5 28.6 v6.8 M50.5 28.6 v6.8 M13.5 28.6 v6.8 M19.5 28.6 v6.8"
+                    transform="rotate(90 32 32)"/>
+            </g>
+            <circle cx="32" cy="32" r="10.5" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <circle cx="32" cy="32" r="8.4" fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M26.5 23.8 a10.5 10.5 0 0 1 11 0" stroke="#3a4b63" stroke-width="1.1"
+                  fill="none" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="6" fill="none" stroke="currentColor" stroke-width="1.7"/>
+            <circle cx="32" cy="32" r="2.4" fill="currentColor"/>
+            <circle cx="28" cy="49" r="1.9" fill="currentColor"/>
+            <circle cx="36" cy="49" r="1.9" fill="currentColor"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600; color: #5AB8D9;">Nivel 2 · 200</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">0,7 ef · 9 E</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(90,184,217,.24); background: rgba(90,184,217,.05);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true" color="#5AB8D9">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <g stroke="#2b3a4e" stroke-width="1.3" fill="#0b0f16">
+              <rect x="38" y="27" width="20" height="10" rx="2.4"/>
+              <rect x="6" y="27" width="20" height="10" rx="2.4"/>
+              <rect x="38" y="27" width="20" height="10" rx="2.4" transform="rotate(60 32 32)"/>
+              <rect x="6" y="27" width="20" height="10" rx="2.4" transform="rotate(60 32 32)"/>
+              <rect x="38" y="27" width="20" height="10" rx="2.4" transform="rotate(120 32 32)"/>
+              <rect x="6" y="27" width="20" height="10" rx="2.4" transform="rotate(120 32 32)"/>
+            </g>
+            <g stroke="#1a2432" stroke-width="0.7">
+              <path d="M38 32 h20 M6 32 h20"/>
+              <path d="M38 32 h20 M6 32 h20" transform="rotate(60 32 32)"/>
+              <path d="M38 32 h20 M6 32 h20" transform="rotate(120 32 32)"/>
+            </g>
+            <g stroke="currentColor" stroke-width="1.1">
+              <path d="M45 28.6 v6.8 M51.5 28.6 v6.8 M12.5 28.6 v6.8 M19 28.6 v6.8"/>
+              <path d="M45 28.6 v6.8 M51.5 28.6 v6.8 M12.5 28.6 v6.8 M19 28.6 v6.8"
+                    transform="rotate(60 32 32)"/>
+              <path d="M45 28.6 v6.8 M51.5 28.6 v6.8 M12.5 28.6 v6.8 M19 28.6 v6.8"
+                    transform="rotate(120 32 32)"/>
+            </g>
+            <circle cx="32" cy="32" r="11.5" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <circle cx="32" cy="32" r="9.4" fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M26 23.2 a11.5 11.5 0 0 1 12 0" stroke="#3a4b63" stroke-width="1.1"
+                  fill="none" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="7.5" fill="none" stroke="currentColor" stroke-width="1.9"/>
+            <circle cx="32" cy="32" r="3.4" fill="currentColor"/>
+            <circle cx="24" cy="51" r="1.9" fill="currentColor"/>
+            <circle cx="32" cy="51" r="1.9" fill="currentColor"/>
+            <circle cx="40" cy="51" r="1.9" fill="currentColor"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600; color: #5AB8D9;">Nivel 3 · 200</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">1,0 ef · 14 E</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                    display: flex; align-items: center; justify-content: center;">
+          <!-- mcLow (buildingEnergy.as:232-242): con energía < 1 los azules pasan a rojo -->
+          <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true" color="#E06A6A">
+            <circle cx="32" cy="32" r="26" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <g stroke="#2b3a4e" stroke-width="1.3" fill="#0b0f16">
+              <rect x="38" y="27" width="19" height="10" rx="2.4"/>
+              <rect x="7" y="27" width="19" height="10" rx="2.4"/>
+            </g>
+            <g stroke="#1a2432" stroke-width="0.7">
+              <path d="M38 32 h19 M7 32 h19"/>
+            </g>
+            <g stroke="currentColor" stroke-width="1.1" opacity=".85">
+              <path d="M44.5 28.6 v6.8 M50.5 28.6 v6.8 M13.5 28.6 v6.8 M19.5 28.6 v6.8"/>
+            </g>
+            <circle cx="32" cy="32" r="9.5" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <circle cx="32" cy="32" r="7.4" fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M27 24.6 a9.5 9.5 0 0 1 10 0" stroke="#3a4b63" stroke-width="1.1"
+                  fill="none" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <circle cx="32" cy="32" r="1.9" fill="currentColor"/>
+            <circle cx="32" cy="47" r="1.9" fill="currentColor"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600;">Sin energía</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">energía &lt; 1</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ALMACÉN ═════════════════════════════════════════════════════ -->
+  <div style="display: flex; gap: 28px; align-items: center; padding: 24px 0;
+              border-top: 1px solid rgba(150,180,215,.09);">
+    <div style="width: 190px; flex-shrink: 0;">
+      <div style="font-size: 16px; font-weight: 600;">Almacén</div>
+      <div style="font-size: 12px; color: #7f8fa8; margin-top: 5px; text-wrap: pretty;">
+        Depósitos alrededor del núcleo; el arco y las pilas marcan la carga.
+      </div>
+      <div class="num" style="font-size: 11px; color: #5f6d82; margin-top: 9px;">300 min · r30 · 500 PV</div>
+    </div>
+    <div style="display: flex; gap: 16px;">
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true">
+            <circle cx="32" cy="32" r="30" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <g fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.3">
+              <rect x="27.5" y="8" width="9" height="14" rx="4.5"/>
+              <rect x="27.5" y="42" width="9" height="14" rx="4.5"/>
+              <rect x="27.5" y="8" width="9" height="14" rx="4.5" transform="rotate(90 32 32)"/>
+              <rect x="27.5" y="42" width="9" height="14" rx="4.5" transform="rotate(90 32 32)"/>
+            </g>
+            <g stroke="#1a2432" stroke-width="0.7">
+              <path d="M27.5 13 h9 M27.5 51 h9"/>
+              <path d="M27.5 13 h9 M27.5 51 h9" transform="rotate(90 32 32)"/>
+            </g>
+            <g stroke="#5AB8D9" stroke-width="1.3" stroke-linecap="round" opacity=".9">
+              <path d="M29.5 18 h5 M29.5 46 h5"/>
+              <path d="M29.5 18 h5 M29.5 46 h5" transform="rotate(90 32 32)"/>
+            </g>
+            <circle cx="32" cy="32" r="12" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <circle cx="32" cy="32" r="9.6" fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <!-- arco de energía guardada: en el juego se completa con E/maxE (aquí, 1/3) -->
+            <path d="M32 22.5 a9.5 9.5 0 0 1 8.2 14.3" fill="none" stroke="#5AB8D9"
+                  stroke-width="2.3" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="2.6" fill="#5AB8D9"/>
+            <!-- pilas llenas a 1/3 (4 × 1/3 = 1,33): en el juego las pinta main.js por nodo -->
+            <g fill="#5AB8D9">
+              <rect x="29" y="9.5" width="6" height="11" rx="3"/>
+              <rect x="29" y="16.83" width="6" height="3.67" rx="3" transform="rotate(90 32 32)"/>
+            </g>
+            <circle cx="32" cy="60" r="1.9" fill="#5AB8D9"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600;">Nivel 1</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">200 E</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(90,184,217,.24); background: rgba(90,184,217,.05);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true">
+            <circle cx="32" cy="32" r="30" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <circle cx="32" cy="32" r="21" fill="none" stroke="#2b3a4e" stroke-width="1.2"/>
+            <g fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.3">
+              <rect x="27.5" y="6" width="9" height="15" rx="4.5"/>
+              <rect x="27.5" y="43" width="9" height="15" rx="4.5"/>
+              <rect x="27.5" y="6" width="9" height="15" rx="4.5" transform="rotate(60 32 32)"/>
+              <rect x="27.5" y="43" width="9" height="15" rx="4.5" transform="rotate(60 32 32)"/>
+              <rect x="27.5" y="6" width="9" height="15" rx="4.5" transform="rotate(120 32 32)"/>
+              <rect x="27.5" y="43" width="9" height="15" rx="4.5" transform="rotate(120 32 32)"/>
+            </g>
+            <g stroke="#1a2432" stroke-width="0.7">
+              <path d="M27.5 11.5 h9 M27.5 52.5 h9"/>
+              <path d="M27.5 11.5 h9 M27.5 52.5 h9" transform="rotate(60 32 32)"/>
+              <path d="M27.5 11.5 h9 M27.5 52.5 h9" transform="rotate(120 32 32)"/>
+            </g>
+            <g stroke="#5AB8D9" stroke-width="1.3" stroke-linecap="round">
+              <path d="M29.5 16.5 h5 M29.5 47.5 h5"/>
+              <path d="M29.5 16.5 h5 M29.5 47.5 h5" transform="rotate(60 32 32)"/>
+              <path d="M29.5 16.5 h5 M29.5 47.5 h5" transform="rotate(120 32 32)"/>
+            </g>
+            <circle cx="32" cy="32" r="13" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <circle cx="32" cy="32" r="10.5" fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <!-- arco de energía guardada: en el juego se completa con E/maxE (aquí, 1/3) -->
+            <path d="M32 21.5 a10.5 10.5 0 0 1 7.4 17.9" fill="none" stroke="#5AB8D9"
+                  stroke-width="2.5" stroke-linecap="round"/>
+            <circle cx="32" cy="32" r="3.2" fill="#5AB8D9"/>
+            <!-- pilas llenas a 1/3 (6 × 1/3 = 2): en el juego las pinta main.js por nodo -->
+            <g fill="#5AB8D9">
+              <rect x="29" y="7.5" width="6" height="12" rx="3"/>
+              <rect x="29" y="7.5" width="6" height="12" rx="3" transform="rotate(60 32 32)"/>
+            </g>
+            <circle cx="28" cy="61" r="1.9" fill="#5AB8D9"/>
+            <circle cx="36" cy="61" r="1.9" fill="#5AB8D9"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600; color: #5AB8D9;">Nivel 2 · 500</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">600 E · 750 PV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ REPARADORA ══════════════════════════════════════════════════ -->
+  <div style="display: flex; gap: 28px; align-items: center; padding: 24px 0;
+              border-top: 1px solid rgba(150,180,215,.09);
+              border-bottom: 1px solid rgba(150,180,215,.09);">
+    <div style="width: 190px; flex-shrink: 0;">
+      <div style="font-size: 16px; font-weight: 600;">Reparadora</div>
+      <div style="font-size: 12px; color: #7f8fa8; margin-top: 5px; text-wrap: pretty;">
+        Bahías con los bots dentro; el anillo es el alcance.
+      </div>
+      <div class="num" style="font-size: 11px; color: #5f6d82; margin-top: 9px;">300 min · r24 · 400 PV</div>
+    </div>
+    <div style="display: flex; gap: 16px;">
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true">
+            <circle cx="32" cy="32" r="25" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <circle cx="32" cy="32" r="15" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <circle cx="32" cy="32" r="12.4" fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <path d="M32 17 a15 15 0 0 1 13 7.5 l-6.5 3.7 a7.5 7.5 0 0 0-6.5-3.7 z"
+                  fill="#111823" stroke="#2b3a4e" stroke-width="1.1"/>
+            <path d="M32 47 a15 15 0 0 1-13-7.5 l6.5-3.7 a7.5 7.5 0 0 0 6.5 3.7 z"
+                  fill="#111823" stroke="#2b3a4e" stroke-width="1.1"/>
+            <path d="M36.5 22.5 l3.6 2 -3.6 2 z" fill="#8ED07A"/>
+            <path d="M27.5 41.5 l-3.6-2 3.6-2 z" fill="#8ED07A"/>
+            <circle cx="32" cy="32" r="6" fill="none" stroke="#8ED07A" stroke-width="1.5"/>
+            <path d="M32 29 v6 M29 32 h6" stroke="#8ED07A" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="17" cy="32" r="2.4" fill="none" stroke="#5AB8D9" stroke-width="1.3"/>
+            <circle cx="32" cy="52" r="1.9" fill="#8ED07A"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600;">Nivel 1</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">alcance 200 · 2 bots</div>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; align-items: center; gap: 11px; width: 160px;">
+        <div style="width: 140px; height: 140px; border-radius: 16px;
+                    border: 1px solid rgba(142,208,122,.22); background: rgba(142,208,122,.05);
+                    display: flex; align-items: center; justify-content: center;">
+          <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true">
+            <circle cx="32" cy="32" r="25" fill="none" stroke="#5f6d82" stroke-width="0.7"
+                    stroke-dasharray="1.6 3.2" opacity="{{foot}}"/>
+            <circle cx="32" cy="32" r="19" fill="none" stroke="#2b3a4e" stroke-width="1.2"/>
+            <circle cx="32" cy="32" r="15" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+            <circle cx="32" cy="32" r="12.4" fill="none" stroke="#1a2432" stroke-width="0.8"/>
+            <g fill="#111823" stroke="#2b3a4e" stroke-width="1.1">
+              <path d="M32 17 a15 15 0 0 1 13 7.5 l-6.5 3.7 a7.5 7.5 0 0 0-6.5-3.7 z"/>
+              <path d="M32 47 a15 15 0 0 1-13-7.5 l6.5-3.7 a7.5 7.5 0 0 0 6.5 3.7 z"/>
+              <path d="M32 17 a15 15 0 0 1 13 7.5 l-6.5 3.7 a7.5 7.5 0 0 0-6.5-3.7 z"
+                    transform="rotate(180 32 32)"/>
+              <path d="M32 47 a15 15 0 0 1-13-7.5 l6.5-3.7 a7.5 7.5 0 0 0 6.5 3.7 z"
+                    transform="rotate(180 32 32)"/>
+            </g>
+            <g fill="#8ED07A">
+              <path d="M36.5 22.5 l3.6 2 -3.6 2 z"/>
+              <path d="M27.5 41.5 l-3.6-2 3.6-2 z"/>
+              <path d="M27.5 41.5 l-3.6-2 3.6-2 z" transform="rotate(180 32 32)"/>
+              <path d="M36.5 22.5 l3.6 2 -3.6 2 z" transform="rotate(180 32 32)"/>
+            </g>
+            <circle cx="32" cy="32" r="6.6" fill="none" stroke="#8ED07A" stroke-width="1.7"/>
+            <path d="M32 28.6 v6.8 M28.6 32 h6.8" stroke="#8ED07A" stroke-width="1.7" stroke-linecap="round"/>
+            <circle cx="13" cy="32" r="2.4" fill="none" stroke="#5AB8D9" stroke-width="1.3"/>
+            <circle cx="28" cy="53" r="1.9" fill="#8ED07A"/>
+            <circle cx="36" cy="53" r="1.9" fill="#8ED07A"/>
+          </svg>
+        </div>
+        <div style="text-align: center;">
+          <div style="font-size: 12.5px; font-weight: 600; color: #8ED07A;">Nivel 2 · 150</div>
+          <div class="num" style="font-size: 11px; color: #7f8fa8; margin-top: 3px;">alcance 300 · 600 PV</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ BOT DE REPARACIÓN ═══════════════════════════════════════════ -->
+  <div style="display: flex; gap: 28px; align-items: center; padding: 24px 0;
+              border-bottom: 1px solid rgba(150,180,215,.09);">
+    <div style="width: 190px; flex-shrink: 0;">
+      <div style="font-size: 16px; font-weight: 600;">Bot de reparación</div>
+      <div style="font-size: 12px; color: #7f8fa8; margin-top: 5px; text-wrap: pretty;">
+        La cuña verde de las bahías, suelta. Apunta arriba; en juego gira como las naves.
+      </div>
+      <div class="num" style="font-size: 11px; color: #5f6d82; margin-top: 9px;">10 px · 60 PV · repara a 50</div>
+    </div>
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <div style="width: 140px; height: 140px; border-radius: 16px;
+                  border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                  display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 16 16" width="96" height="96" aria-hidden="true">
+          <path d="M8 2 L13 13 L8 10.5 L3 13 Z"
+                fill="#0b0f16" stroke="#8ED07A" stroke-width="1.3" stroke-linejoin="round"/>
+          <circle cx="8" cy="8.6" r="1.4" fill="#8ED07A"/>
+        </svg>
+      </div>
+      <div style="width: 140px; height: 140px; border-radius: 16px;
+                  border: 1px solid rgba(150,180,215,.10); background: rgba(150,180,215,.035);
+                  display: flex; align-items: center; justify-content: center;">
+        <svg viewBox="0 0 64 64" width="118" height="118" aria-hidden="true">
+          <circle cx="32" cy="32" r="15" fill="#0b0f16" stroke="#2b3a4e" stroke-width="1.4"/>
+          <circle cx="32" cy="32" r="6" fill="none" stroke="#8ED07A" stroke-width="1.5"/>
+          <path d="M32 29 v6 M29 32 h6" stroke="#8ED07A" stroke-width="1.5" stroke-linecap="round"/>
+          <svg x="47" y="10" width="10" height="10" viewBox="0 0 16 16">
+            <path d="M8 2 L13 13 L8 10.5 L3 13 Z" fill="#0b0f16" stroke="#8ED07A" stroke-width="1.3" stroke-linejoin="round"
+                  transform="rotate(35 8 8)"/>
+            <circle cx="8" cy="8.6" r="1.4" fill="#8ED07A"/>
+          </svg>
+          <path d="M47 20 L38 26" stroke="#8ED07A" stroke-width="0.8" stroke-dasharray="1 1.5" opacity=".6"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 20px; font-size: 12px; color: #6c7a8f; text-wrap: pretty; max-width: 640px;">
+    El anillo cian pequeño está siempre en el mismo sitio: es el punto de anclaje del cable, y es lo
+    que dice de un vistazo que la pieza se enchufa a la red.
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"footprint":{"editor":"boolean","default":true},"$preview":{"width":880,"height":1580}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { foot: this.props.footprint === false ? 0 : 0.5 };
+  }
+}
+</script>
+</body>
+</html>

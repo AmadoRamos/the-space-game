@@ -1,0 +1,242 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
+    body { margin: 0; background: #070a10; }
+    * { box-sizing: border-box; }
+    .num { font-family: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+           font-variant-numeric: tabular-nums; }
+    .sec { display: flex; align-items: baseline; gap: 14px; margin-top: 30px;
+           padding-top: 22px; border-top: 1px solid rgba(150,180,215,.09); }
+    .crop { border-radius: 14px; overflow: hidden; padding: 28px;
+            border: 1px solid rgba(150,180,215,.10); background: #080c14;
+            display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .cap { font-size: 12px; color: #7f8fa8; margin-top: 10px; text-wrap: pretty; }
+    .ttl { font-size: 13px; font-weight: 600; }
+    .row { display: flex; justify-content: space-between; gap: 10px;
+           font-size: 12px; padding: 4px 0; }
+    .row span:first-child { color: #7f8fa8; }
+    .row span:last-child { color: #c8d2e0; }
+    .key { display: inline-flex; align-items: center; justify-content: center;
+           min-width: 18px; height: 18px; padding: 0 5px; border-radius: 4px;
+           background: rgba(150,180,215,.10); border: 1px solid rgba(150,180,215,.16);
+           font-size: 10px; color: #8b9bb4; }
+
+    /* ── el componente: una sola pieza, tres tintes ── */
+    .aviso { display: flex; align-items: center; gap: 10px; padding: 9px 16px 9px 13px;
+             border-radius: 10px; font-size: 13px; backdrop-filter: blur(10px);
+             border: 1px solid rgba(150,180,215,.14); background: rgba(11,16,26,.82);
+             color: #d7dfeb; white-space: nowrap; }
+    .aviso svg { flex: none; }
+    .aviso.alerta { border-color: rgba(224,106,106,.30); background: rgba(30,14,16,.82); color: #e8c9c9; }
+    .aviso.exito  { border-color: rgba(142,208,122,.28); background: rgba(14,26,16,.82); color: #cfe6c6; }
+    .aviso .n { font-weight: 600; color: #E9A25A; }
+    .aviso.oleada { gap: 14px; padding: 11px 18px 11px 15px; border-radius: 12px;
+                    border-color: rgba(224,106,106,.3); background: rgba(30,14,16,.78);
+                    color: #e6ecf5; }
+    .aviso.oleada .sep { width: 1px; height: 20px; background: rgba(224,106,106,.26); }
+
+    .dialogo { width: 340px; padding: 18px 20px 20px; border-radius: 14px;
+               border: 1px solid rgba(150,180,215,.13); background: rgba(11,16,26,.72);
+               backdrop-filter: blur(14px); box-shadow: 0 18px 44px rgba(0,0,0,.45); }
+    .dialogo .t { font-size: 18px; font-weight: 600; letter-spacing: -0.02em; }
+    .dialogo .x { margin-top: 8px; font-size: 13px; line-height: 1.5; color: #8b9bb4; text-wrap: pretty; }
+    .dialogo .btns { display: flex; gap: 8px; margin-top: 18px; }
+    .btn { flex: 1; height: 44px; border: 0; border-radius: 11px; cursor: pointer;
+           display: flex; align-items: center; justify-content: space-between; padding: 0 14px;
+           font-family: inherit; font-size: 13.5px; font-weight: 600; }
+    .btn.gris { background: rgba(150,180,215,.08); color: #8b9bb4;
+                box-shadow: inset 0 0 0 1px rgba(150,180,215,.13); }
+    .btn.rojo { background: rgba(224,106,106,.14); color: #E06A6A;
+                box-shadow: inset 0 0 0 1px rgba(224,106,106,.32); }
+    .btn.ambar { background: rgba(233,162,90,.16); color: #E9A25A;
+                 box-shadow: inset 0 0 0 1px rgba(233,162,90,.34); }
+  </style>
+</helmet>
+
+<div style="width: 1200px; min-height: 1180px; padding: 40px; display: flex; flex-direction: column;
+            background: radial-gradient(900px 700px at 30% 6%, #131d2e 0%, #0b1018 52%, #070a10 100%);
+            font-family: 'Space Grotesk', 'Helvetica Neue', Arial, sans-serif;
+            color: #e6ecf5; letter-spacing: -0.01em;">
+
+  <svg width="0" height="0" style="position: absolute;" aria-hidden="true">
+    <defs>
+      <symbol id="i-alerta" viewBox="0 0 24 24">
+        <path d="M12 4.2 21 19.4H3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 10v4M12 16.6v.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-info" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M12 11v5M12 8.2v.1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+      </symbol>
+      <symbol id="i-ok" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="8.2" fill="none" stroke="currentColor" stroke-width="1.6"/>
+        <path d="M8.5 12.2l2.4 2.4 4.6-4.8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <!-- ══ cabecera ════════════════════════════════════════════════════ -->
+  <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;">
+    <div>
+      <div style="font-size: 25px; font-weight: 600; letter-spacing: -0.03em;">Avisos, notificaciones y confirmaciones</div>
+      <div style="font-size: 13px; color: #7f8fa8; margin-top: 7px; max-width: 560px; text-wrap: pretty;">
+        Todo lo que el juego le dice al jugador sin que lo haya pedido. Tres piezas, ninguna nativa
+        del navegador: la pastilla fugaz, la pila de notificaciones y el diálogo modal.
+      </div>
+    </div>
+    <div class="num" style="font-size: 11px; color: #5f6d82; text-align: right; line-height: 1.7;">
+      alerta 1,6 s · nota 4 s<br>oleada 20 s · diálogo hasta responder
+    </div>
+  </div>
+
+  <!-- ══ PASTILLAS ═══════════════════════════════════════════════════ -->
+  <div class="sec">
+    <div style="font-size: 16px; font-weight: 600;">Pastillas</div>
+    <div style="font-size: 12px; color: #7f8fa8;">
+      Una sola pieza con tres tintes. Se apilan bajo la barra superior, centradas, la más nueva abajo.
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 20px; margin-top: 22px;">
+    <div style="width: 380px;">
+      <div class="crop">
+        <div class="aviso alerta"><svg width="16" height="16" style="color:#E06A6A"><use href="#i-alerta"/></svg>ahí no cabe: se solapa con algo</div>
+        <div class="aviso alerta"><svg width="16" height="16" style="color:#E06A6A"><use href="#i-alerta"/></svg>No te llegan los minerales.</div>
+      </div>
+      <div class="ttl" style="margin-top: 12px; color: #E06A6A;">Alerta</div>
+      <div class="cap">
+        Algo que has intentado y no se puede. Rojo, 1,6 s. Si repites el mismo error, la misma
+        pastilla se reaviva en vez de apilarse: no castiga al que insiste.
+      </div>
+    </div>
+
+    <div style="width: 380px;">
+      <div class="crop">
+        <div class="aviso"><svg width="16" height="16" style="color:#8b9bb4"><use href="#i-info"/></svg>Arrastra para mover · rueda para acercar</div>
+        <div class="aviso"><svg width="16" height="16" style="color:#8b9bb4"><use href="#i-info"/></svg>Elige antes qué construir: teclas 1-4</div>
+      </div>
+      <div class="ttl" style="margin-top: 12px; color: #c8d2e0;">Nota</div>
+      <div class="cap">
+        Información que no reprocha nada: un consejo, un control, un estado. Cristal neutro, 4 s,
+        y se apilan hasta tres; la cuarta echa a la más vieja.
+      </div>
+    </div>
+
+    <div style="width: 380px;">
+      <div class="crop">
+        <div class="aviso exito"><svg width="16" height="16" style="color:#8ED07A"><use href="#i-ok"/></svg>Vendido por <span class="n">&nbsp;+180</span>&nbsp;minerales</div>
+        <div class="aviso exito"><svg width="16" height="16" style="color:#8ED07A"><use href="#i-ok"/></svg>Planta mejorada a nivel 2</div>
+      </div>
+      <div class="ttl" style="margin-top: 12px; color: #8ED07A;">Éxito</div>
+      <div class="cap">
+        Algo que has hecho y ha salido. Verde, 4 s. Las cifras en ámbar y monoespaciada, como
+        en el resto de la HUD: el dinero siempre se ve igual.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ OLEADA ══════════════════════════════════════════════════════ -->
+  <div class="sec">
+    <div style="font-size: 16px; font-weight: 600;">Aviso de oleada</div>
+    <div style="font-size: 12px; color: #7f8fa8;">
+      La misma pastilla, crecida: es la única que lleva cuenta atrás. Caduca a los 20 s, como el <span class="num">waveBar</span> original.
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 20px; margin-top: 22px; align-items: flex-start;">
+    <div style="width: 580px;">
+      <div class="crop">
+        <div class="aviso oleada">
+          <svg width="19" height="19" style="color:#E06A6A"><use href="#i-alerta"/></svg>
+          <div style="display: flex; align-items: baseline; gap: 9px;">
+            <span style="font-size: 14px; font-weight: 600;">Oleada 7</span>
+            <span style="font-size: 13px; color: #b9a0a2;">40 cazas por el noreste</span>
+          </div>
+          <div class="sep"></div>
+          <span class="num" style="font-size: 14px; font-weight: 600; color: #E06A6A;">0:22</span>
+        </div>
+      </div>
+      <div class="cap">
+        Ya estaba en <span class="num">Main</span>; aquí solo se deja dicho que es una nota de la misma
+        familia y que ocupa el primer hueco de la pila mientras viva.
+      </div>
+    </div>
+    <div style="width: 300px; margin-top: 4px;">
+      <div class="row"><span>Posición</span><span>centrada, top 96</span></div>
+      <div class="row"><span>Separación</span><span class="num">8 px</span></div>
+      <div class="row"><span>Entrada</span><span>opacidad .18 s</span></div>
+      <div class="row"><span>Salida</span><span>opacidad .3 s</span></div>
+      <div class="row"><span>Eventos</span><span>ninguno (pointer-events: none)</span></div>
+    </div>
+  </div>
+
+  <!-- ══ DIÁLOGO ═════════════════════════════════════════════════════ -->
+  <div class="sec">
+    <div style="font-size: 16px; font-weight: 600;">Confirmación</div>
+    <div style="font-size: 12px; color: #7f8fa8;">
+      El único aviso que espera. Congela la partida mientras está abierto, igual que el panel de opciones.
+    </div>
+  </div>
+
+  <div style="display: flex; gap: 20px; margin-top: 22px; align-items: flex-start;">
+    <div class="crop" style="width: 420px; padding: 40px;">
+      <div class="dialogo">
+        <div class="t">¿Abandonar la partida?</div>
+        <div class="x">Perderás el progreso de este nivel y volverás al menú.</div>
+        <div class="btns">
+          <button class="btn gris"><span>Seguir jugando</span><span class="key">Esc</span></button>
+          <button class="btn rojo"><span>Abandonar</span><span class="key">↵</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="crop" style="width: 420px; padding: 40px;">
+      <div class="dialogo">
+        <div class="t">¿Reiniciar el nivel?</div>
+        <div class="x">El campo se vuelve a generar con la misma semilla.</div>
+        <div class="btns">
+          <button class="btn gris"><span>Cancelar</span><span class="key">Esc</span></button>
+          <button class="btn ambar"><span>Reiniciar</span><span class="key">↵</span></button>
+        </div>
+      </div>
+    </div>
+
+    <div style="width: 260px; margin-top: 4px;">
+      <div class="row"><span>Ancho</span><span class="num">340 px</span></div>
+      <div class="row"><span>Fondo</span><span>velo rgba(4,6,10,.55)</span></div>
+      <div class="row"><span>Cancelar</span><span>siempre a la izquierda, gris</span></div>
+      <div class="row"><span>Confirmar</span><span>a la derecha, del color del acto</span></div>
+      <div class="row"><span>Teclado</span><span><span class="key">Esc</span> cancela · <span class="key">↵</span> confirma</span></div>
+      <div class="row"><span>Clic en el velo</span><span>cancela</span></div>
+      <div class="cap" style="margin-top: 14px;">
+        Rojo para lo que destruye (abandonar), ámbar para lo que cuesta (reiniciar, vender un edificio
+        mejorado). El botón de confirmar nunca es el primero: la mano va al gris por defecto.
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top: 26px; font-size: 12px; color: #6c7a8f; text-wrap: pretty; max-width: 720px;">
+    Los tres comparten cristal, radio y tipografía con los paneles de la HUD. Lo que cambia es
+    el tinte del borde: rojo si algo ha ido mal o va a doler, verde si ha salido, nada si solo
+    informa. Nunca un <span class="num">alert()</span> ni un <span class="num">confirm()</span>:
+    rompen el cristal y paran el reloj del navegador, no el del juego.
+  </div>
+
+</div>
+</x-dc>
+
+<script data-dc-script data-props='{"$preview":{"width":1200,"height":1180}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

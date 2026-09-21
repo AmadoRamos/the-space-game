@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Space Game</title>
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="./estilos.css">
+</head>
+
+<body class="menu">
+
+  <!-- design/Menu.dc.html: raíl a la izquierda, ficha del nivel a la derecha,
+       el campo real quieto y apagado detrás -->
+  <div id="menu">
+    <div class="rail">
+      <h1>THE<br>SPACE<br>GAME</h1>
+      <div style="margin-top:20px;width:56px;height:2px;background:var(--energia)"></div>
+      <div style="margin-top:16px;font-size:14px;color:var(--dim)">Mina, conecta, defiende.</div>
+
+      <div style="margin-top:34px;flex-grow:1">
+        <div class="grp">Primeros pasos</div>
+        <div class="nav" data-nivel="1" data-grupo="1 2"><span>Entrenamiento</span><span class="num k">2</span></div>
+        <div class="nav" data-nivel="0"><span>Tutorial</span><span class="num k">sin oleadas</span></div>
+        <div class="grp">Partida</div>
+        <div class="nav" data-nivel="3" data-grupo="3 4 5 6"><span>Campaña</span><span class="num k">4</span></div>
+        <div class="nav" data-nivel="8" data-grupo="8 9 10"><span>Supervivencia</span><span class="num k">3</span></div>
+        <div class="nav" data-nivel="101" data-grupo="101 102 103 104 105 106 107 108 109"><span>Misiones</span><span class="num k">9</span></div>
+        <div class="grp">Sueltos</div>
+        <div class="nav" data-nivel="11"><span>Modo oleada</span><span class="num k">6 oleadas</span></div>
+        <div class="nav" data-nivel="12"><span>Minero veloz</span><span class="num k">contrarreloj</span></div>
+        <div class="nav" data-nivel="13"><span>Caja de arena</span><span class="num k">libre</span></div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:20px">
+        <button class="salir" id="mOpciones">Opciones</button>
+        <button class="salir" id="mCreditos">Créditos</button>
+        <div style="margin-left:auto;display:flex;gap:6px">
+          <button class="icono" data-opcion="sonido" title="Efectos">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6.5 9H3v6h3.5L11 19z"/><path d="M15.4 9.2a4 4 0 0 1 0 5.6"/></svg>
+          </button>
+          <button class="icono" data-opcion="musica" title="Música">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M9 18V7.5l9-1.8V16"/><circle cx="6.6" cy="18" r="2.6"/><circle cx="15.6" cy="16" r="2.6"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ficha">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px">
+        <div>
+          <div id="mTitulo" style="font-size:30px;font-weight:600;letter-spacing:-.03em"></div>
+          <div id="mDesc" style="margin-top:8px;max-width:520px;font-size:13.5px;line-height:1.5;color:var(--dim);text-wrap:pretty"></div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div class="num" style="font-size:11px;color:var(--faint);letter-spacing:.05em">MEJOR MARCA</div>
+          <div class="num" id="mMarca" style="margin-top:4px;font-size:22px;font-weight:600;color:var(--mineral)"></div>
+        </div>
+      </div>
+
+      <!-- una tarjeta por dificultad; las que aún no existen salen apagadas -->
+      <div id="mTarjetas" style="display:flex;flex-wrap:wrap;gap:16px;margin-top:34px"></div>
+
+      <div id="mLinea" style="margin-top:40px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between">
+          <div id="mLineaTitulo" style="font-size:12.5px;color:var(--dim)"></div>
+          <div class="num" id="mLineaNota" style="font-size:11px;color:var(--faint)"></div>
+        </div>
+        <svg id="mLineaSvg" viewBox="0 0 888 96" width="888" height="96" style="display:block;margin-top:14px;max-width:100%" aria-hidden="true"></svg>
+      </div>
+
+      <div style="margin-top:auto;display:flex;align-items:center;gap:16px">
+        <button class="jugar" id="mJugar">Jugar
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="currentColor" aria-hidden="true"><path d="M8 5.4 19 12 8 18.6z"/></svg>
+        </button>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:10px">
+          <span class="num" style="font-size:11.5px;color:var(--faint)">semilla</span>
+          <span class="num" id="mSemilla" style="padding:7px 12px;border-radius:8px;font-size:12px;color:var(--dim);background:rgba(150,180,215,.06);border:1px solid var(--line)"></span>
+          <button class="icono" id="mOtraSemilla" title="Otro campo" style="width:34px;height:34px;border:1px solid var(--line)">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.4-5.5"/><path d="M19.9 4.6v4.2h-4.2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- velo compartido por opciones y confirmaciones -->
+  <div id="velo" class="oculto"></div>
+  <div class="panel oculto" id="dialogo">
+    <div id="dTitulo" style="font-size:18px;font-weight:600;letter-spacing:-.02em"></div>
+    <div id="dTexto" style="margin-top:8px;font-size:13px;line-height:1.5;color:var(--dim)"></div>
+    <div style="display:flex;gap:8px;margin-top:18px">
+      <button class="accion gris" id="dNo"><span></span><span class="tecla">Esc</span></button>
+      <button class="accion" id="dSi"><span></span><span class="tecla">↵</span></button>
+    </div>
+  </div>
+  <div class="panel oculto" id="creditos">
+    <div style="font-size:18px;font-weight:600;letter-spacing:-.02em">Créditos</div>
+    <div style="margin-top:8px;font-size:13px;line-height:1.5;color:var(--dim)">
+      Juego original: <b>The Space Game</b>, de Casual Collective (versión 83).<br><br>
+      Este port al navegador reimplementa el SWF decompilado: mismos números, mismos sonidos, mismas rarezas.
+    </div>
+    <button class="accion" id="crCerrar"><span>Cerrar</span></button>
+  </div>
+  <div class="panel oculto" id="opciones">
+    <div style="font-size:18px;font-weight:600;letter-spacing:-.02em">Opciones</div>
+    <label class="opcion"><input type="checkbox" name="optCB"><span>Modo daltónico</span><small>cables y naves con más contraste</small></label>
+    <label class="opcion"><input type="checkbox" name="optSL"><span>Láseres lentos</span><small>el disparo dura 4 ticks en vez de 2</small></label>
+    <label class="opcion"><input type="checkbox" name="optSM"><span>Cámara sin suavizado</span><small>el mapa salta en vez de deslizarse</small></label>
+    <label class="opcion"><input type="checkbox" name="optEL"><span>Sin líneas de energía</span><small>no se dibuja cada toma de energía</small></label>
+    <label class="opcion"><input type="checkbox" name="optMS"><span>Fondo fijo</span><small>las estrellas dejan de seguir a la cámara</small></label>
+    <label class="opcion"><input type="checkbox" name="sonido"><span>Efectos</span><small>los del juego original</small></label>
+    <label class="opcion"><input type="checkbox" name="musica"><span>Música</span><small>fondo y tensión, como el original</small></label>
+    <button class="accion" id="opCerrar"><span>Cerrar</span></button>
+  </div>
+
+  <svg id="world" aria-label="Campo de juego">
+    <!-- los <defs> con los sprites los inyecta main.js desde sprites.svg -->
+    <!-- mcBackground 1-3: tres profundidades de estrellas, fuera de la cámara -->
+    <g id="gEstrellas1"></g><g id="gEstrellas2"></g><g id="gEstrellas3"></g>
+    <g id="cam">
+      <g id="gAsteroides"></g>
+      <g id="gCables"></g>
+      <g id="gRayos"></g>
+      <g id="gNodos"></g>
+      <g id="gEfectos"></g>
+      <g id="gNaves"></g>
+      <g id="gLaseres"></g>
+      <g id="gFantasma"></g>
+    </g>
+  </svg>
+
+  <div class="panel" id="objetivo">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+      <div id="oTitulo" style="font-size:17px;font-weight:600;letter-spacing:-.02em"></div>
+      <div class="num" id="oReloj" style="font-size:12px;color:var(--faint);letter-spacing:.04em">0:00</div>
+    </div>
+    <div id="oMeta">
+      <div style="margin-top:14px;display:flex;align-items:baseline;gap:7px">
+        <span class="num" id="oMinados" style="font-size:26px;font-weight:600;letter-spacing:-.02em;color:var(--mineral)">0</span>
+        <span class="num" id="oObjetivo" style="font-size:13px;color:var(--faint)"></span>
+      </div>
+      <div style="margin-top:11px;height:4px;border-radius:2px;background:rgba(150,180,215,.14);overflow:hidden">
+        <div id="oBarra" style="width:0;height:100%;border-radius:2px;background:var(--mineral)"></div>
+      </div>
+    </div>
+    <div class="num" id="oOleada" style="margin-top:10px;font-size:12px;color:var(--faint)"></div>
+  </div>
+
+  <!-- tutorial1/tutorial2: el guion de los entrenamientos, etapa a etapa -->
+  <div class="panel oculto" id="guion">
+    <div class="num" id="gPaso" style="font-size:10.5px;letter-spacing:.08em;color:var(--faint)"></div>
+    <div id="gTexto" style="margin-top:6px;font-size:13px;line-height:1.5"></div>
+    <button class="accion" id="gSiguiente"><span>Siguiente</span><span class="tecla">↵</span></button>
+  </div>
+
+  <!-- Wave Mode (mcWaves) y Sandbox (DefineSprite_1244): el panel que manda
+       las naves. No hay diseño en design/; sigue el estilo de los paneles. -->
+  <div class="panel oculto" id="oleadas">
+    <div id="olTitulo" style="font-size:13px;font-weight:600"></div>
+    <div id="olBotones" class="ol-grid"></div>
+    <div id="olArena" class="oculto">
+      <div class="ol-etq">Nave</div>
+      <div class="ol-fila" id="olNave"></div>
+      <div class="ol-etq">Cantidad</div>
+      <div class="ol-fila" id="olTamano"></div>
+      <div class="ol-etq">Dispersión</div>
+      <div class="ol-fila" id="olDispersion"></div>
+      <div class="ol-etq">Rumbo <span class="num" id="olRumboTxt"></span></div>
+      <input type="range" id="olAngulo" min="0" max="355" step="5" value="0">
+      <button class="accion" id="olEnviar"><span>Enviar</span><span class="num" id="olEnfria"></span></button>
+    </div>
+  </div>
+
+  <!-- velocidad y sistema, como en design/Main.dc.html -->
+  <div id="sistema">
+    <div class="pastilla" id="velocidad">
+      <button data-v="0" title="Pausa">
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor" aria-hidden="true"><rect x="7.5" y="6" width="3.4" height="12" rx="1.1"/><rect x="13.1" y="6" width="3.4" height="12" rx="1.1"/></svg>
+      </button>
+      <button class="num ancho" data-v="0.5" title="Lento">½×</button>
+      <button class="num ancho" data-v="1" title="Normal" aria-pressed="true">1×</button>
+      <button class="num ancho" data-v="4" title="Rápido">4×</button>
+    </div>
+    <div class="pastilla">
+      <button id="oReiniciar" title="Reiniciar">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M19.5 12a7.5 7.5 0 1 1-2.4-5.5"/><path d="M19.9 4.6v4.2h-4.2"/></svg>
+      </button>
+      <button id="oOpciones" title="Opciones">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3.4v2.2M12 18.4v2.2M20.6 12h-2.2M5.6 12H3.4M18.1 5.9l-1.6 1.6M7.5 16.5l-1.6 1.6M18.1 18.1l-1.6-1.6M7.5 7.5 5.9 5.9"/></svg>
+      </button>
+      <button id="oSalir" title="Abandonar y volver al menú">
+        <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M6.5 6.5 17.5 17.5M17.5 6.5 6.5 17.5"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="panel oculto" id="seleccion">
+    <div style="display:flex;align-items:center;gap:12px">
+      <svg viewBox="0 0 64 64" width="44" height="44">
+        <use id="sSprite" href="#sp-relay" />
+      </svg>
+      <div style="flex-grow:1">
+        <div id="sNombre" style="font-size:15px;font-weight:600"></div>
+        <div class="num" id="sNivel" style="font-size:11px;color:var(--dim);margin-top:3px"></div>
+      </div>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:3px;height:5px">
+      <div id="sVida" style="border-radius:3px;background:var(--repara)"></div>
+      <div id="sVidaResto" style="border-radius:3px;background:rgba(150,180,215,.14)"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px">
+      <span class="num" id="sVidaTxt" style="font-size:10.5px;color:var(--dim)"></span>
+      <span class="num" id="sEnergia" style="font-size:10.5px;color:var(--energia)"></span>
+    </div>
+    <div id="sFichas" style="margin-top:13px;padding-top:11px;border-top:1px solid var(--line)"></div>
+    <button class="accion" id="sMejorar">
+      <span class="conInfo"><span id="sMejorarTxt"></span><span class="i">Info</span></span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span class="num" id="sCoste"></span><span class="tecla">U</span>
+      </span>
+    </button>
+    <button class="accion oculto" id="sPulse">
+      <span class="conInfo">Convertir en Pulse<span class="i">Info</span></span>
+      <span style="display:flex;align-items:center;gap:8px"><span class="num">100</span><span class="tecla">P</span></span>
+    </button>
+    <button class="accion oculto" id="sThel">
+      <span class="conInfo">Convertir en THEL<span class="i">Info</span></span>
+      <span style="display:flex;align-items:center;gap:8px"><span class="num">500</span><span class="tecla">T</span></span>
+    </button>
+    <div class="vender oculto" id="sMisiles">
+      <span class="conInfo">Disparo automático<span class="i">Info</span></span>
+      <span class="num" id="sMisilesTxt" style="padding:3px 8px;border-radius:6px;font-size:11px;background:rgba(150,180,215,.08)"></span>
+    </div>
+    <div class="vender" id="sVender">
+      <span>Vender</span>
+      <span style="display:flex;align-items:center;gap:8px">
+        <span class="num" id="sReembolso" style="color:var(--mineral)"></span><span class="tecla">R</span>
+      </span>
+    </div>
+  </div>
+
+  <div id="info"></div>
+  <div id="barra"></div>
+
+  <div class="panel" id="recursos">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+      <div style="display:flex;align-items:baseline;gap:8px">
+        <span class="num" id="rMinerales"
+          style="font-size:28px;font-weight:600;letter-spacing:-.03em;color:var(--mineral);line-height:1">0</span>
+        <span style="font-size:12px;color:var(--dim)">minerales</span>
+      </div>
+      <span class="num" id="rRitmo" style="font-size:12px;color:var(--repara)">+0/min</span>
+    </div>
+    <div style="height:1px;background:var(--line)"></div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <span style="font-size:12px;color:var(--dim)">Energía en red</span>
+        <span class="num" id="rEnergia" style="font-size:13px;font-weight:600;color:var(--energia)">0 / 0</span>
+      </div>
+      <div style="display:flex;gap:3px;height:6px">
+        <div id="rEnergiaLlena" style="border-radius:3px;background:var(--energia)"></div>
+        <div id="rEnergiaResto" style="border-radius:3px;background:rgba(90,184,217,.16)"></div>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <span class="num" id="rConteo" style="font-size:12px;color:var(--dim)"></span>
+      <span id="rMinado" class="conInfo"><span class="i">Info</span><span class="num" id="rMineros" style="padding:3px 8px;border-radius:6px;font-size:11px;cursor:pointer;
+          color:var(--repara);background:rgba(142,208,122,.12)">Minado ON</span></span>
+    </div>
+  </div>
+
+  <!-- design/FinVictoria.dc.html y FinDerrota.dc.html: el mismo panel, con
+       el sello de victoria o el porcentaje de derrota -->
+  <div class="panel oculto" id="fin">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px">
+      <div>
+        <div class="num" id="fModo" style="font-size:11px;letter-spacing:.14em"></div>
+        <div id="fTitulo" style="margin-top:10px;font-size:36px;font-weight:600;letter-spacing:-.035em"></div>
+        <div id="fTexto" style="margin-top:10px;max-width:440px;font-size:14.5px;line-height:1.45;color:var(--dim);text-wrap:pretty"></div>
+      </div>
+      <div id="fSello">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="var(--energia)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 12.5 9.5 17.5 19.5 6.5"/></svg>
+      </div>
+      <div id="fPorcentaje" style="text-align:right;flex-shrink:0">
+        <div class="num" style="font-size:46px;font-weight:600;letter-spacing:-.04em;line-height:1;color:var(--mineral)"><span id="fPct"></span><span style="font-size:24px">%</span></div>
+        <div style="margin-top:8px;font-size:11.5px;color:#7f8fa8">del objetivo</div>
+      </div>
+    </div>
+    <div id="fProgreso">
+      <div style="margin-top:22px;height:5px;border-radius:3px;background:rgba(150,180,215,.12);overflow:hidden">
+        <div id="fBarra" style="height:100%;border-radius:3px;background:var(--mineral)"></div>
+      </div>
+      <div style="display:flex;justify-content:space-between;margin-top:7px">
+        <span class="num" id="fMinados" style="font-size:11px;color:#7f8fa8"></span>
+        <span class="num" id="fObjetivo" style="font-size:11px;color:var(--faint)"></span>
+      </div>
+    </div>
+    <div class="stats" id="fStats"></div>
+    <div style="margin-top:26px">
+      <div style="display:flex;align-items:baseline;justify-content:space-between">
+        <div style="font-size:12.5px;font-weight:500;color:#c8d2e0">Energía en red</div>
+        <div class="num" id="fPicoE" style="font-size:11px;color:#7f8fa8"></div>
+      </div>
+      <svg id="fGrafE" viewBox="0 0 672 96" width="672" height="96" style="display:block;margin-top:8px;max-width:100%" aria-hidden="true"></svg>
+      <div style="display:flex;align-items:baseline;justify-content:space-between;margin-top:20px">
+        <div style="font-size:12.5px;font-weight:500;color:#c8d2e0">Minerales por minuto</div>
+        <div class="num" id="fPicoM" style="font-size:11px;color:#7f8fa8"></div>
+      </div>
+      <svg id="fGrafM" viewBox="0 0 672 96" width="672" height="96" style="display:block;margin-top:8px;max-width:100%" aria-hidden="true"></svg>
+      <svg id="fEje" viewBox="0 0 672 22" width="672" height="22" style="display:block;margin-top:4px;max-width:100%" aria-hidden="true"></svg>
+    </div>
+    <div style="display:flex;gap:12px;margin-top:30px">
+      <button class="btn principal oculto" id="fSiguiente"></button>
+      <button class="btn principal" id="fReiniciar"></button>
+      <button class="btn" id="fMismo" style="flex-direction:column;gap:2px;align-items:flex-start">
+        <span style="font-size:13.5px">Mismo campo</span>
+        <span class="num" id="fMismoSemilla" style="font-size:10.5px;color:#7f8fa8"></span>
+      </button>
+      <button class="btn" id="fMenu" style="padding:0 20px">Menú</button>
+    </div>
+  </div>
+
+  <div class="panel" id="minimapa"><canvas id="mini" width="184" height="132" aria-label="Minimapa"></canvas></div>
+
+  <div id="avisos"></div>
+  <div id="check"></div>
+
+  <script type="module" src="./main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+{
+  "pages": [
+    {
+      "id": "page-1",
+      "name": "Assets"
+    },
+    {
+      "id": "page-2",
+      "name": "Pantallas"
+    }
+  ],
+  "artboards": [
+    {
+      "file": "Edificios.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 880,
+      "h": 1580,
+      "page": "page-1"
+    },
+    {
+      "file": "Asteroides.dc.html",
+      "x": 0,
+      "y": 1700,
+      "w": 880,
+      "h": 1560,
+      "page": "page-1"
+    },
+    {
+      "file": "Enemigos.dc.html",
+      "x": 0,
+      "y": 3380,
+      "w": 880,
+      "h": 1960,
+      "page": "page-1"
+    },
+    {
+      "file": "Armas.dc.html",
+      "x": 1000,
+      "y": 0,
+      "w": 880,
+      "h": 1100,
+      "page": "page-1"
+    },
+    {
+      "file": "Escala.dc.html",
+      "x": 1000,
+      "y": 1220,
+      "w": 880,
+      "h": 1080,
+      "page": "page-1"
+    },
+    {
+      "file": "Efectos.dc.html",
+      "x": 1000,
+      "y": 2700,
+      "w": 880,
+      "h": 1840,
+      "page": "page-1"
+    },
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2"
+    },
+    {
+      "file": "Menu.dc.html",
+      "x": 1560,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2"
+    },
+    {
+      "file": "FinVictoria.dc.html",
+      "x": 3120,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2"
+    },
+    {
+      "file": "FinDerrota.dc.html",
+      "x": 3120,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "page": "page-2"
+    },
+    {
+      "file": "Estados.dc.html",
+      "x": 0,
+      "y": 1020,
+      "w": 1200,
+      "h": 1440,
+      "page": "page-2"
+    },
+    {
+      "file": "Avisos.dc.html",
+      "x": 1300,
+      "y": 1020,
+      "w": 1200,
+      "h": 1180,
+      "page": "page-2"
+    }
+  ],
+  "annotations": [
+    {
+      "id": "nota-vector",
+      "x": 1000,
+      "y": 2420,
+      "w": 880,
+      "page": "page-1",
+      "text": "Todo es vector, sin tamaño fijo: el motor decide a qué píxeles se rinde.\nLa capa de detalle fino (#1a2432 en máquinas, #2b2419 en roca) es lo que hace que aguante 200 px sin verse vacío, y lo que se funde solo al alejar el zoom."
+    }
+  ],
+  "launch": {
+    "view": "canvas",
+    "page": "page-1"
+  }
+}
