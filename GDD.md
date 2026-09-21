@@ -185,9 +185,19 @@ nodo con más de un enlace) se dispara `path()`, que invalida las rutas y encola
 - Cada nodo guarda `_mines[m] = { mine: fuente, depth: saltos, path: [...] }`.
 - `depth` inicial 1000 = inalcanzable.
 
-> **ponytail:** el BFS incremental (una fuente por tick) evita un pico de CPU al
-> construir. En una reimplementación moderna, recalcular todo de golpe es más
-> simple y el coste es despreciable.
+En realidad `pathB()` corre en ticks **alternos** (`_pathTick`,
+`frame_2/DoAction.as:565-577`): una fuente cada dos ticks. Y como `path()`
+empieza vaciando `_mines` de todos los nodos, hasta que `pathB()` llega a una
+fuente nadie bebe de ella: cada obra de fuente o de relay con dos cables y cada
+derribo (`destroy`, `:715-721`) apagan la red `2 × fuentes` ticks. No es una
+optimización sin efecto: es balance, y el port lo reproduce (`Network.path` /
+`pathB` / `_pathStepTick` en `sim.js`).
+
+`quickPath(A, B)` (`:1208`), que usa `link()` cuando el nodo nuevo cuelga de un
+solo cable a un no-fuente ya construido, copia las rutas de A un salto más
+lejos **incluidas las inalcanzables**: la ruta vacía pasa a ser `[A]`, y
+`requestEnergy` la da por buena. Hasta el siguiente `path()`, B bebe de fuentes
+a las que A no llega, y si A es un minero, a través de él. Se reproduce.
 
 ### Consumo (`requestEnergy(node, needs)`, `frame_2/DoAction.as:1309`)
 

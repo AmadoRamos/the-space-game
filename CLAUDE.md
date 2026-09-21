@@ -24,7 +24,7 @@ Lo que falta está en [`TODO.md`](TODO.md). La especificación es [`GDD.md`](GDD
 
 ```bash
 npm start      # servidor estático en http://localhost:8123
-npm run check  # 61 aserciones del modelo de red
+npm run check  # 63 aserciones del modelo de red
 ```
 
 `npm run check` corre también dentro de la página: el resultado se pinta abajo a
@@ -44,7 +44,7 @@ verifica con él antes de darlo por bueno.**
 | `web/sonido.js` | `sfx()` y la mezcla de las tres pistas; `main.js` decide cuándo suena |
 | `web/sonidos/` | Los MP3 del SWF, copiados de `DATA/sounds/` |
 | `web/serve.js` | Servidor estático (`node:http`) |
-| `web/comprobaciones.js` | Las 61 aserciones que comparan el modelo con el oráculo |
+| `web/comprobaciones.js` | Las 63 aserciones que comparan el modelo con el oráculo |
 | `web/check.js` | Las corre desde la CLI |
 | `GDD.md` | Especificación completa con los valores reales |
 | `TODO.md` | Lo que falta |

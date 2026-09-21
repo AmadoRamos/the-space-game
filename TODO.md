@@ -22,8 +22,12 @@ Funciona la mitad económica del juego: la red de energía completa y verificada
   original reproducido a propósito).
 - `web/main.js` — render SVG con los sprites del canvas de diseño, cámara,
   colocación, panel de selección de edificio y de asteroide, HUD.
-- `web/check.js` — 46 aserciones que comparan el port con el modelo de
+- `web/check.js` — 63 aserciones que comparan el port con el modelo de
   referencia. Corren en `npm run check` y también dentro de la página.
+- Rutas incrementales como el original: `path()` borra y `pathB()` repone una
+  fuente cada dos ticks (apagón de `2 × fuentes` ticks por obra o derribo), con
+  el `quickPath` y sus rutas heredadas inalcanzables. Zoom 20-100 %, `Q`
+  acerca y `E` aleja.
 
 Lo verificado numéricamente: pulso solar cada 22 ticks, ciclo de minado 144
 ticks, ingreso real 66,7/min frente a los 80 que anuncia el HUD original,

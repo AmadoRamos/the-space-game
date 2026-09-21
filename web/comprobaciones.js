@@ -75,7 +75,13 @@ export function selfCheck() {
   net.asteroids.push(new Asteroid(120, 0, 12));
   const planta = net.autoplace('energy', 0, 0);
   const enObra = net.place('miner', 70, 0);
-  ok(enObra !== null && enObra.routes.size === 1, 'el minero en obra tiene ruta a la planta');
+  // link() → path() (frame_2/DoAction.as:1519): las rutas se borran y vuelven
+  // una fuente por pathB(), en ticks alternos
+  ok(enObra !== null && enObra.routes.size === 0, 'recién colocado, el minero en obra no tiene ruta: path() las borró');
+  net.tick();
+  ok(enObra.routes.size === 1, 'y la recupera en el primer pathB()');
+  net.path();
+  ok(net.requestEnergy(enObra, 1) === 0, 'tras path() nadie bebe hasta pathB(): el apagón del original');
   ok(enObra.construction === 0, 'y empieza sin nada construido');
   let seg = 0;
   while (seg < 20 && !enObra.built) { net.run(1); seg++; }

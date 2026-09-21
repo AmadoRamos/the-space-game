@@ -374,8 +374,10 @@ addEventListener('keydown', (ev) => {
   if (k === 's' || ev.key === 'ArrowDown') meta.y += paso;
   if (k === 'a' || ev.key === 'ArrowLeft') meta.x -= paso * 1.5;
   if (k === 'd' || ev.key === 'ArrowRight') meta.x += paso * 1.5;
-  if (k === 'q') meta.zoom = Math.max(0.2, meta.zoom - 0.15);
-  if (k === 'e') meta.zoom = Math.min(2.4, meta.zoom + 0.15);
+  // DefineSprite_1084/frame_1/DoAction.as:200-220: Q acerca y E aleja de 30 en
+  // 30, entre el 20 % y el 100 %. Nunca por encima de 1×.
+  if (k === 'q') meta.zoom = Math.min(1, meta.zoom + 0.3);
+  if (k === 'e') meta.zoom = Math.max(0.2, meta.zoom - 0.3);
 });
 addEventListener('keyup', (ev) => { if (ev.key === 'Shift') encadenar = false; });
 
@@ -384,7 +386,10 @@ world.addEventListener('wheel', (ev) => {
   if (!nivel.canZoom) return;
   ev.preventDefault();
   const antes = aPantalla(ev, meta);
-  meta.zoom = Math.min(2.4, Math.max(0.2, meta.zoom * (ev.deltaY < 0 ? 1.12 : 0.89)));
+  // :145-160: mapTarget[2] += delta × 2, entre 20 y 100. El delta de Flash en
+  // Windows es 3 por muesca (no está en el bytecode: es de la plataforma), así
+  // que 6 % por muesca. Anclar el zoom al cursor es añadido del port.
+  meta.zoom = Math.min(1, Math.max(0.2, meta.zoom + (ev.deltaY < 0 ? 0.06 : -0.06)));
   const despues = aPantalla(ev, meta);
   meta.x += antes.x - despues.x; meta.y += antes.y - despues.y;
 }, { passive: false });
@@ -926,7 +931,7 @@ const GUION = {
     { texto: 'Mejórala (U o barra espaciadora): una planta de nivel 2 da más energía.', hasta: () => net.nodes.some((n) => n.kind === 'energy' && n.level === 2) },
     { boton: true, texto: 'Con más energía la red mina más rápido. Ya sabes lo esencial.' },
     { texto: 'Ahora arrastra el mapa para moverte (o WASD).', al: () => { nivel.canScroll = true; }, hasta: () => Math.abs(cam.x) > 250 || Math.abs(cam.y) > 100 },
-    { texto: 'Y aléjate con la rueda (o Q).', al: () => { nivel.canZoom = true; }, hasta: () => cam.zoom < 0.7 },
+    { texto: 'Y aléjate con la rueda (o E).', al: () => { nivel.canZoom = true; }, hasta: () => cam.zoom < 0.7 },
     { boton: true, texto: 'Entrenamiento 1 completado.' },
   ],
   2: [

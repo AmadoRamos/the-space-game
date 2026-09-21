@@ -122,7 +122,7 @@ export class Node {
     this.value = spec.cost;      // lo que devuelve al venderse, a vida completa
 
     this.links = [];             // vecinos: grafo NO dirigido
-    this.routes = new Map();     // índice de fuente -> {depth, path}
+    this.routes = new Map();     // _mines: índice de fuente -> {mine, depth, path}
     this.asteroids = [];         // solo mineros
 
     this.efficiency = spec.efficiency ?? 0;
@@ -223,7 +223,9 @@ export class Node {
       if (this.buildEnergy >= 1) {
         this.construction += 1;
         this.buildEnergy -= 1;
-        if (this.built) net.repath();
+        // buildingEnergy.as:220 y buildingStore.as:196: solo la fuente nueva
+        // (nivel 1) recalcula rutas; la reparadora y el lanzamisiles, nunca
+        if (this.built && this.level === 1 && (this.kind === 'energy' || this.kind === 'store')) net.path();
       }
     }
     this.constructionStep += 1;
@@ -236,8 +238,7 @@ export class Node {
         // buildingEnergy.as: de nivel 2 en adelante la obra no cuesta energía
         if (this.constructionStep === this.constructionTick) {
           this.constructionStep = 0;
-          this.construction += 1;
-          if (this.built) net.repath();
+          this.construction += 1;   // la mejora no recalcula rutas (:220 exige nivel 1)
         }
         this.constructionStep += 1;
       } else {
@@ -263,7 +264,8 @@ export class Node {
     if (this.energy >= this.spec.constructionThreshold) {
       this.construction += this.spec.constructionStep;
       this.energy = 0;
-      if (this.built) net.repath();
+      // buildingRelay.as:164: el relay de un solo cable no recalcula, ya lo hizo quickPath
+      if (this.built && this.links.length > 1) net.path();
     }
   }
 
@@ -280,7 +282,7 @@ export class Node {
       if (this.constructionStep >= this.constructionTick) {
         this.energy = net.requestEnergy(this, 1);
         this.constructionStep = 0;
-        if (this.energy > 0) { this.construction += 1; if (this.built) net.repath(); }
+        if (this.energy > 0) this.construction += 1;   // no relaya: no recalcula rutas
       }
       this.constructionStep += 2;
       return;
@@ -865,6 +867,8 @@ export class Network {
 
     this.tickMoving = 0;
     this.tickRelays = 0;
+    this.pathStep = 0;           // _pathStep: fuentes que faltan por recorrer
+    this.pathTick = 0;           // _pathTick: pathB() solo en ticks alternos
     this.ticks = 0;
     this.rand = rand;
   }
@@ -969,7 +973,11 @@ export class Network {
     this.nodes.push(node);
     this.celdas.registrar(node);   // buildingX.place(): en la rejilla desde que se coloca
     this.wrecks = this.wrecks.filter((w) => !w.hueco || hypot(w.x - x, w.y - y) > w.size);
-    this.repath();
+    // link(), frame_2/DoAction.as:1512-1520: con un solo cable a un no-fuente
+    // ya construido hereda sus rutas al instante; si no, recálculo completo
+    const a = lines[0];
+    if (lines.length === 1 && a.kind !== 'energy' && a.kind !== 'store' && a.construction >= B.PROPAGATE_AT) this.quickPath(a, node);
+    else this.path();
     if (kind === 'relay') this.moveMiddle();   // buildingRelay.as:126, solo el relay lo llama
     return node;
   }
@@ -985,18 +993,20 @@ export class Network {
       node.upgrade(this);
       node.construction = node.targetConstruction;
     }
-    this.repath();
     this.moveMiddle();           // mcMiddle.reset() tras el autoPlace del nivel
     return node;
   }
 
   remove(node) {
     for (const nb of node.links) nb.links.splice(nb.links.indexOf(node), 1);
+    // destroy(), frame_2/DoAction.as:715-721: detatch() no vacía _linked del
+    // caído, así que cuenta los cables que tenía; y ya está fuera de las colas
+    const recalcular = node.relayEnergy && (node.kind === 'energy' || node.kind === 'store' || node.links.length > 1);
     node.links.length = 0;
     node.removed = true;
     this.celdas.quitar(node);
     this.nodes.splice(this.nodes.indexOf(node), 1);
-    this.repath();
+    if (recalcular) this.path();
     this.moveMiddle();           // destroy(), frame_2/DoAction.as:729
   }
 
@@ -1133,39 +1143,70 @@ export class Network {
 
   // -- rutas -----------------------------------------------------------------
   /**
-   * path() + pathB(): un BFS por cada fuente, guardando profundidad y ruta.
-   * El original reparte el BFS a una fuente por tick para no saturar Flash;
-   * aquí se hace de golpe.
-   * ponytail: O(fuentes × nodos) por recálculo. Con ~50 nodos sobra; si un mapa
-   * grande lo nota, volver al reparto incremental del original.
+   * path(), frame_2/DoAction.as:1223: borra TODAS las rutas y encola una
+   * pasada de pathB() por fuente. Hasta que pathB() llega a una fuente, nadie
+   * puede beber de ella: cada obra de fuente o relay con dos cables y cada
+   * derribo apagan la red 2 ticks por fuente. Es balance del original y se
+   * reproduce; ver _pathStepTick().
    */
-  repath() {
+  path() {
     for (const n of this.nodes) n.routes = new Map();
+    this.pathStep = this.sources.length;
+  }
+
+  /** pathB(), :1231: el BFS de la fuente m = fuentes − _pathStep. */
+  pathB() {
     const srcs = this.sources;
-    for (let i = 0; i < srcs.length; i++) {
-      const src = srcs[i];
-      if (src.construction < B.PROPAGATE_AT) continue;
-      for (const n of this.nodes) n.routes.set(i, { depth: B.UNREACHABLE, path: null });
-      let frontier = [src], depth = 1;
-      const pathed = new Set();
-      while (frontier.length) {
-        const next = [];
-        for (const cur of frontier) {
-          pathed.add(cur.id);
-          for (const nb of cur.links) {
-            if (pathed.has(nb.id)) continue;
-            const r = nb.routes.get(i);
-            if (r.depth > depth) {
-              r.depth = depth;
-              r.path = [...(cur.routes.get(i)?.path ?? []), cur];
-            }
-            if (nb.propagates) next.push(nb);
+    const m = srcs.length - this.pathStep, src = srcs[m];
+    if (!src || src.construction < B.PROPAGATE_AT) return;
+    for (const n of this.nodes) n.routes.set(m, { mine: src, depth: B.UNREACHABLE, path: [] });
+    let frontier = [src], depth = 1;
+    const pathed = new Set();
+    while (frontier.length) {
+      const next = [];
+      for (const cur of frontier) {
+        pathed.add(cur.id);
+        for (const nb of cur.links) {
+          if (pathed.has(nb.id)) continue;
+          const r = nb.routes.get(m);
+          if (r.depth > depth) {
+            r.depth = depth;
+            r.path = [...cur.routes.get(m).path, cur];
           }
+          if (nb.propagates) next.push(nb);
         }
-        depth += 1;
-        frontier = next;
       }
+      depth += 1;
+      frontier = next;
     }
+  }
+
+  /**
+   * quickPath(A, B), :1208: B hereda las rutas de A un salto más lejos, sin
+   * esperar a pathB(). Copia también las inalcanzables (depth 1000, ruta
+   * vacía), que salen con ruta [A] y por tanto válidas para requestEnergy():
+   * B bebe de fuentes a las que A no llega hasta el siguiente path(). Y si A
+   * es un minero, B bebe a través de él aunque no relaye. Quirks del original.
+   */
+  quickPath(a, b) {
+    b.routes = new Map();
+    for (const [m, r] of a.routes) b.routes.set(m, { mine: r.mine, depth: r.depth + 1, path: [...r.path, a] });
+  }
+
+  /** :565-577, al cierre de tickGameB: una fuente cada dos ticks. */
+  _pathStepTick() {
+    if (this.pathTick <= 0) {
+      this.pathTick = 1;
+      if (this.pathStep > 0) { this.pathB(); this.pathStep -= 1; }
+    } else {
+      this.pathTick = 0;
+    }
+  }
+
+  /** path() y todas sus pasadas de golpe. Solo para las comprobaciones. */
+  repath() {
+    this.path();
+    while (this.pathStep > 0) { this.pathB(); this.pathStep -= 1; }
   }
 
   /**
@@ -1176,12 +1217,10 @@ export class Network {
   requestEnergy(node, needs) {
     if (needs <= 0) return 0;
     let got = 0;
-    const srcs = this.sources;
     // sortOn("depth", DESCENDING | NUMERIC)
-    const routes = [...node.routes.entries()].sort((a, b) => b[1].depth - a[1].depth);
-    for (const [i, { path }] of routes) {
-      if (!path) continue;
-      const src = srcs[i];
+    const routes = [...node.routes.values()].sort((a, b) => b.depth - a.depth);
+    for (const { mine: src, path } of routes) {
+      if (!path.length) continue;   // :1327, la fuente misma o aún sin ruta
       if (node.kind === 'store' && src.kind === 'store') continue;
       if (src.construction !== src.targetConstruction) continue;
       const take = Math.min(src.energy, needs - got);
@@ -1259,6 +1298,7 @@ export class Network {
       for (const d of lost) { d.removed = true; this.celdas.quitar(d); this.drones.splice(this.drones.indexOf(d), 1); }
       if (this.blasts.length) this.blasts = this.blasts.filter((b) => b.until > this.ticks);
       if (this.wrecks.length) this.wrecks = this.wrecks.filter((w) => w.hueco || this.ticks - w.tick < 4);
+      this._pathStepTick();
       return;
     }
     this.tickRelays += 1;
@@ -1275,6 +1315,7 @@ export class Network {
       this.wrecks.push({ x: n.x, y: n.y, kind: n.kind, size: n.size, tick: this.ticks, hueco: true });
     }
     if (this.beams.length) this.beams = this.beams.filter((b) => b.until > this.ticks);
+    this._pathStepTick();
   }
 
   run(seconds) { for (let i = 0; i < seconds * B.TICK_RATE; i++) this.tick(); }
