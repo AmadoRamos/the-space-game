@@ -6,6 +6,7 @@
   "description": "Reimplementación de The Space Game (Casual Collective, v83) a partir del SWF decompilado.",
   "scripts": {
     "start": "node web/serve.js 8123",
-    "check": "node web/check.js"
+    "check": "node web/check.js",
+    "capturas": "node design/capturas.mjs"
   }
 }

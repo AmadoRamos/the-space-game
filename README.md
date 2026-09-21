@@ -61,24 +61,15 @@ Los sprites y pantallas están dibujados como SVG en canvas de diseño
 
 **Assets**
 
-| | |
-|---|---|
-| [Edificios](design/Edificios.dc.html) | Relay, minero, planta, almacén, reparadora y su bot |
-| [Armas](design/Armas.dc.html) | Torreta láser, Pulse, THEL y lanzamisiles |
-| [Enemigos](design/Enemigos.dc.html) | Las siete naves (`e1`–`e7`) |
-| [Asteroides](design/Asteroides.dc.html) | Rocas, roca agotada y los degradados |
-| [Efectos](design/Efectos.dc.html) | Láser, minado, misil, salpicadura y destrucción, tick a tick |
-| [Estados](design/Estados.dc.html) | Colocación (válido, bloqueado) y paneles de edificio y asteroide seleccionados |
-| [Avisos](design/Avisos.dc.html) | Iconos de alerta, info y ok |
-| [Escala](design/Escala.dc.html) | Prueba de resolución y cómo se exportan los sprites |
+<table><tr><td align="center"><a href="design/Edificios.dc.html"><img src="design/capturas/Edificios.png" width="200"></a><br><sub>Edificios</sub></td><td align="center"><a href="design/Armas.dc.html"><img src="design/capturas/Armas.png" width="200"></a><br><sub>Armas</sub></td><td align="center"><a href="design/Enemigos.dc.html"><img src="design/capturas/Enemigos.png" width="200"></a><br><sub>Enemigos</sub></td><td align="center"><a href="design/Asteroides.dc.html"><img src="design/capturas/Asteroides.png" width="200"></a><br><sub>Asteroides</sub></td></tr>
+<tr><td align="center"><a href="design/Efectos.dc.html"><img src="design/capturas/Efectos.png" width="200"></a><br><sub>Efectos</sub></td><td align="center"><a href="design/Estados.dc.html"><img src="design/capturas/Estados.png" width="200"></a><br><sub>Estados</sub></td><td align="center"><a href="design/Avisos.dc.html"><img src="design/capturas/Avisos.png" width="200"></a><br><sub>Avisos</sub></td><td align="center"><a href="design/Escala.dc.html"><img src="design/capturas/Escala.png" width="200"></a><br><sub>Escala</sub></td></tr></table>
 
 **Pantallas**
 
-| | |
-|---|---|
-| [Main](design/Main.dc.html) | El mundo en juego con HUD |
-| [Menu](design/Menu.dc.html) | Menú principal y tarjetas de dificultad |
-| [FinVictoria](design/FinVictoria.dc.html) / [FinDerrota](design/FinDerrota.dc.html) | Pantallas de fin con las gráficas |
+<table><tr><td align="center"><a href="design/Main.dc.html"><img src="design/capturas/Main.png" width="400"></a><br><sub>Main</sub></td><td align="center"><a href="design/Menu.dc.html"><img src="design/capturas/Menu.png" width="400"></a><br><sub>Menu</sub></td></tr>
+<tr><td align="center"><a href="design/FinVictoria.dc.html"><img src="design/capturas/FinVictoria.png" width="400"></a><br><sub>FinVictoria</sub></td><td align="center"><a href="design/FinDerrota.dc.html"><img src="design/capturas/FinDerrota.png" width="400"></a><br><sub>FinDerrota</sub></td></tr></table>
+
+Las capturas se regeneran con `npm run capturas` (Chrome headless).
 
 ## Estado
 
