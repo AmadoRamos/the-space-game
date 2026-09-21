@@ -53,6 +53,33 @@ pintan el resultado abajo a la izquierda.
 | `DATA/SWF/scripts/` | AS2 decompilado — la fuente de la verdad |
 | `DATA/Python/` | Oráculo de referencia con el que se verificó el modelo. No es runtime. |
 
+## Diseño
+
+Los sprites y pantallas están dibujados como SVG en canvas de diseño
+(`design/*.dc.html`, se abren en el navegador). `web/sprites.svg` copia sus
+`<symbol>` literalmente: si cambia un sprite, cambia aquí primero.
+
+**Assets**
+
+| | |
+|---|---|
+| [Edificios](design/Edificios.dc.html) | Relay, minero, planta, almacén, reparadora y su bot |
+| [Armas](design/Armas.dc.html) | Torreta láser, Pulse, THEL y lanzamisiles |
+| [Enemigos](design/Enemigos.dc.html) | Las siete naves (`e1`–`e7`) |
+| [Asteroides](design/Asteroides.dc.html) | Rocas, roca agotada y los degradados |
+| [Efectos](design/Efectos.dc.html) | Láser, minado, misil, salpicadura y destrucción, tick a tick |
+| [Estados](design/Estados.dc.html) | Colocación (válido, bloqueado) y paneles de edificio y asteroide seleccionados |
+| [Avisos](design/Avisos.dc.html) | Iconos de alerta, info y ok |
+| [Escala](design/Escala.dc.html) | Prueba de resolución y cómo se exportan los sprites |
+
+**Pantallas**
+
+| | |
+|---|---|
+| [Main](design/Main.dc.html) | El mundo en juego con HUD |
+| [Menu](design/Menu.dc.html) | Menú principal y tarjetas de dificultad |
+| [FinVictoria](design/FinVictoria.dc.html) / [FinDerrota](design/FinDerrota.dc.html) | Pantallas de fin con las gráficas |
+
 ## Estado
 
 Jugable de principio a fin: red de energía, los siete edificios, los siete
