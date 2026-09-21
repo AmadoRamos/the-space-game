@@ -417,6 +417,15 @@ $('sVender').onclick = vender;
 const GIRO_TORRETA = 360;
 const rumbos = new WeakMap();
 let ultimoGiro = 0;
+// arco horario desde las 12 alrededor del nodo, completo con frac = 1
+function arco(n, r, frac, color, grosor) {
+  const a = Math.min(0.9999, frac);          // 1 exacto no dibuja arco
+  const ang = -Math.PI / 2 + a * Math.PI * 2;
+  return el('path', {
+    d: `M${n.x} ${n.y - r} A${r} ${r} 0 ${a > 0.5 ? 1 : 0} 1 ${n.x + Math.cos(ang) * r} ${n.y + Math.sin(ang) * r}`,
+    fill: 'none', stroke: color, 'stroke-width': grosor, 'stroke-linecap': 'round',
+  });
+}
 function pintarMundo() {
   const ahora = performance.now();
   // cables
@@ -482,14 +491,8 @@ function pintarMundo() {
         // El arco del núcleo se completa con la energía guardada. El original lo
         // intentaba con mcEnergy1/mcEnergy2 (buildingStore.as:221-229), clips que
         // no existen en el sprite de v83; aquí se usa el arco que tenía el símbolo.
-        const k = w / 64, r = (n.level > 1 ? 10.5 : 9.5) * k;   // viewBox 64 → TAM
-        const frac = n.energy / n.maxEnergy;
-        const arco = Math.min(0.9999, frac);                    // 1 exacto no dibuja arco
-        const ang = -Math.PI / 2 + arco * Math.PI * 2;
-        nodos.push(el('path', {
-          d: `M${n.x} ${n.y - r} A${r} ${r} 0 ${arco > 0.5 ? 1 : 0} 1 ${n.x + Math.cos(ang) * r} ${n.y + Math.sin(ang) * r}`,
-          fill: 'none', stroke: '#5AB8D9', 'stroke-width': (n.level > 1 ? 2.5 : 2.3) * k, 'stroke-linecap': 'round',
-        }));
+        const k = w / 64, frac = n.energy / n.maxEnergy;         // viewBox 64 → TAM
+        nodos.push(arco(n, (n.level > 1 ? 10.5 : 9.5) * k, frac, '#5AB8D9', (n.level > 1 ? 2.5 : 2.3) * k));
         // Las pilas del símbolo (4 en nivel 1, 6 en nivel 2) se llenan en orden
         // horario desde la de arriba, cada una con su 1/n, del núcleo hacia fuera.
         // Coordenadas del viewBox del símbolo: hueco interior de cada pila.
@@ -503,6 +506,13 @@ function pintarMundo() {
         }
         nodos.push(g);
       }
+      // Fabricando un bot (buildingRepair.as:208-236, shipStep baja con la
+      // energía que recibe): el arco se completa alrededor de la cruz. No hay
+      // clip para esto en el original; es el mismo recurso que el almacén.
+      if (n.kind === 'repair' && n.shipStep > 0) {
+        const k = w / 64;
+        nodos.push(arco(n, 9.5 * k, 1 - n.shipStep / n.spec.botEnergy, '#8ED07A', 2 * k));
+      }
     } else {
       // "en obra": silueta a trazos + arco cian con la energía ya bombeada
       const r = w / 2;
@@ -510,12 +520,7 @@ function pintarMundo() {
         cx: n.x, cy: n.y, r, fill: 'none', stroke: '#2b3a4e',
         'stroke-width': 1.4 / cam.zoom, 'stroke-dasharray': `${3 / cam.zoom} ${2.6 / cam.zoom}`,
       }));
-      const frac = n.construction / n.targetConstruction;
-      const ang = -Math.PI / 2 + frac * Math.PI * 2;
-      nodos.push(el('path', {
-        d: `M${n.x} ${n.y - r} A${r} ${r} 0 ${frac > 0.5 ? 1 : 0} 1 ${n.x + Math.cos(ang) * r} ${n.y + Math.sin(ang) * r}`,
-        fill: 'none', stroke: '#5AB8D9', 'stroke-width': 2.4 / cam.zoom, 'stroke-linecap': 'round',
-      }));
+      nodos.push(arco(n, r, n.construction / n.targetConstruction, '#5AB8D9', 2.4 / cam.zoom));
     }
     if (n.lowPower && n.built && !(n.kind in ACENTO)) {   // el resto ya lo dice el acento
       nodos.push(el('circle', { cx: n.x, cy: n.y + w / 2 + 6, r: 2.4 / cam.zoom, fill: '#E9C15A' }));
